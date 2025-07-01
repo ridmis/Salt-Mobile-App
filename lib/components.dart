@@ -18,7 +18,7 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.togglePasswordVisibility,
   });
-
+//widget
   @override
   Widget build(BuildContext context) {
     return TextField(
