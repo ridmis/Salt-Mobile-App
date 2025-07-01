@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/AppColors.dart';
+import 'dart:ui';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:myapp/AppColors.dart';
+import 'package:myapp/components.dart';
 import 'package:myapp/global.dart' as global;
 
 class SignIn extends StatefulWidget {
@@ -13,6 +15,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  bool _obscureText = true;
 
   void login() async {
     final inputUser = _userController.text.trim();
@@ -24,15 +27,14 @@ class _SignInState extends State<SignIn> {
     final userSnap = await userRef.get();
     final adminSnap = await adminRef.get();
 
-    // Check Admin node first
     if (adminSnap.exists) {
       final data = adminSnap.value as Map;
       final storedPass = data['password'];
 
       if (inputPass == storedPass) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("Admin login successful")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Admin login successful")),
+        );
         Navigator.pushNamed(context, '/admin');
         return;
       } else {
@@ -44,27 +46,26 @@ class _SignInState extends State<SignIn> {
       }
     }
 
-    // Check User node
     if (userSnap.exists) {
       final data = userSnap.value as Map;
       final storedPass = data['password'];
 
       if (inputPass == storedPass) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("User login successful")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("User login successful")),
+        );
         global.userId = data['userId'];
         Navigator.pushNamed(context, '/dashboard');
       } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("Invalid password")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Invalid password")),
+        );
         _passController.clear();
       }
     } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Invalid username")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Invalid username")),
+      );
       _userController.clear();
       _passController.clear();
     }
@@ -73,115 +74,57 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.secondary,
       body: Stack(
+        fit: StackFit.expand,
         children: [
-          Positioned.fill(
-            child: Opacity(
-              opacity: 0.7,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(200),
-                    bottomRight: Radius.circular(200),
-                  ),
+          ImageFiltered(
+            imageFilter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: Image.asset('assets/Salt_bg.png', fit: BoxFit.cover),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+              decoration: const BoxDecoration(
+                color: AppColors.thirtary,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
                 ),
               ),
-            ),
-          ),
-          SafeArea(
-            child: Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const Text("Login", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    const Text(
+                      "Please Sign in as an Administrator or User",
+                      style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 87, 86, 86)),
+                    ),
                     const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 25,
-                        vertical: 30,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.thirtary,
-                        borderRadius: BorderRadius.circular(25),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 10,
-                            offset: const Offset(0, 5),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Sign In",
-                            style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          TextField(
-                            controller: _userController,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.person),
-                              hintText: "Employer ID",
-                              filled: true,
-                              fillColor: const Color.fromARGB(
-                                255,
-                                193,
-                                188,
-                                188,
-                              ).withOpacity(0.1),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          TextField(
-                            controller: _passController,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.lock),
-                              hintText: "Password",
-                              filled: true,
-                              fillColor: AppColors.thirtary.withOpacity(0.1),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: login,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondary,
-                                foregroundColor: AppColors.thirtary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                  horizontal: 30,
-                                ),
-                              ),
-                              child: const Text(
-                                'Login',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    CustomTextField(
+                      controller: _userController,
+                      hintText: 'Username',
+                      icon: Icons.person,
+                    ),
+                    const SizedBox(height: 16),
+                    CustomTextField(
+                      controller: _passController,
+                      hintText: 'Password',
+                      icon: Icons.lock,
+                      isPassword: true,
+                      obscureText: _obscureText,
+                      togglePasswordVisibility: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    CustomButton(
+                      label: 'Sign In',
+                      onPressed: login,
                     ),
                   ],
                 ),
