@@ -10,7 +10,7 @@ class LargeElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(330, 45),
+        minimumSize: Size(330, 50),
         backgroundColor: blueColor1,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
