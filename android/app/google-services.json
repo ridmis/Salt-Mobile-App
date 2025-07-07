@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "253060968567",
+    "firebase_url": "https://saltlanka-ec970-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "saltlanka-ec970",
+    "storage_bucket": "saltlanka-ec970.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253060968567:android:f077d6bbd042869d375672",
+        "android_client_info": {
+          "package_name": "SLT.Salt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253060968567-5vvqfkuqro03a2grbb813eldolut8t9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6Je9ZLNMrmKi3n1Tk72ah9-ZibYzv264"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253060968567-5vvqfkuqro03a2grbb813eldolut8t9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
