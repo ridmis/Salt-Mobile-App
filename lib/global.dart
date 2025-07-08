@@ -8,3 +8,6 @@ String userId = '';
 int SelectedTypeId = 0; // Global variable to hold Selected type ID
 String selectedPoolName = '';
 String selectedTypeName = '';
+
+String userName = "";
+String userType = "";

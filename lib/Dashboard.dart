@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/AppColors.dart';
 import 'package:myapp/constant.dart';
+import 'package:myapp/global.dart' as global;
 import 'package:myapp/rainfall.dart';
 import 'package:myapp/reusable_components/category_container.dart';
 import 'package:myapp/reusable_components/profile_drawer.dart';
@@ -91,10 +92,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Welcome, Dilshxn",
+                    "Welcome, ${global.userName}",
                     style: headingTextStyle.copyWith(fontSize: 20),
                   ),
-                  Text("901901313   Updater", style: smallTextStyle),
+                  Text(global.userType, style: smallTextStyle),
                 ],
               ),
               GestureDetector(
@@ -281,5 +282,3 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     );
   }
 }
-
-

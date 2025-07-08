@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/AppColors.dart';
 import 'package:myapp/constant.dart';
+import 'package:myapp/global.dart' as global;
 
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({super.key});
@@ -26,8 +27,8 @@ class ProfileDrawer extends StatelessWidget {
                       backgroundImage: AssetImage("assets/salt.png"),
                     ),
                     SizedBox(height: 20),
-                    Text("Dilshxn Kavinda", style: headingTextStyle),
-                    Text("901901313 - Updater", style: smallTextStyle),
+                    Text(global.userName, style: headingTextStyle),
+                    Text(global.userType, style: smallTextStyle),
                   ],
                 ),
                 SizedBox(height: 15),
@@ -38,7 +39,7 @@ class ProfileDrawer extends StatelessWidget {
                   leading: Icon(Icons.logout),
                   title: Text('Logout', style: smallTextStyle),
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/');
                     // Add logout functionality here
                   },
                 ),
