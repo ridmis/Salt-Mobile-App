@@ -70,6 +70,9 @@ class AdminPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: DashboardContainer(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/addUser");
+                        },
                         image: "assets/16678169.gif",
                         title: "Add User/Admin",
                       ),
@@ -77,6 +80,9 @@ class AdminPage extends StatelessWidget {
                     SizedBox(width: 20),
                     Expanded(
                       child: DashboardContainer(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/createItems");
+                        },
                         image: "assets/new-item.gif",
                         title: "Create New Item",
                       ),
@@ -92,6 +98,9 @@ class AdminPage extends StatelessWidget {
                       child: DashboardContainer(
                         image: "assets/prescription.gif",
                         title: "Report",
+                        onTap: () {
+                          Navigator.pushNamed(context, "/reportSection");
+                        },
                       ),
                     ),
                     SizedBox(width: 10),
@@ -99,6 +108,9 @@ class AdminPage extends StatelessWidget {
                       child: DashboardContainer(
                         image: "assets/analysis.gif",
                         title: "Analyse",
+                        onTap: () {
+                          Navigator.pushNamed(context, "/analyseSection");
+                        },
                       ),
                     ),
                     SizedBox(width: 10),
@@ -106,6 +118,9 @@ class AdminPage extends StatelessWidget {
                       child: DashboardContainer(
                         image: "assets/newspaper.gif",
                         title: "Readings",
+                        onTap: () {
+                          Navigator.pushNamed(context, "/readingSection");
+                        },
                       ),
                     ),
                   ],
@@ -119,8 +134,12 @@ class AdminPage extends StatelessWidget {
                       child: DashboardContainer(
                         image: "assets/update.gif",
                         title: "Change Current Items",
+                        onTap: () {
+                          Navigator.pushNamed(context, "/changeItems");
+                        },
                       ),
                     ),
+
                     SizedBox(width: 10),
                   ],
                 ),

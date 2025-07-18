@@ -7,6 +7,7 @@ final Color greyColor = Color(0xFFD0DED8);
 final Color blackColor = Color(0xFF000000);
 final Color redColor = Color(0xFF932E30);
 final Color greenColor = Color(0xFF2E9349);
+final Color darkGreyColor = Color.fromARGB(162, 51, 54, 63);
 
 TextStyle headingTextStyle = TextStyle(
   fontSize: 24,

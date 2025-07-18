@@ -21,7 +21,8 @@ class CustomTextField extends StatelessWidget {
     this.isPassword = false,
     this.obscureText = false,
     this.togglePasswordVisibility,
-    required this.readOnly, required this.keyboardType,
+    required this.readOnly,
+    required this.keyboardType,
   });
   //widget
   @override
@@ -33,7 +34,7 @@ class CustomTextField extends StatelessWidget {
       obscureText: isPassword ? obscureText : false,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: smallTextStyle.copyWith(fontWeight: FontWeight.bold),
+        hintStyle: smallTextStyle,
         prefixIcon: Icon(icon),
 
         suffixIcon:
