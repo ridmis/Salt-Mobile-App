@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/AppColors.dart';
+import 'package:myapp/constant.dart';
+import 'package:myapp/rainfall.dart';
+import 'package:myapp/reusable_components/category_container.dart';
+import 'package:myapp/reusable_components/profile_drawer.dart';
+import 'package:myapp/global.dart' as global;
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -9,6 +14,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late AnimationController _controller1;
   late AnimationController _controller2;
 
@@ -18,10 +24,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   late Animation<double> _fadeAnimation2;
   late Animation<double> _scaleAnimation2;
 
+  String userName = "";
   @override
   void initState() {
     super.initState();
-
+    userName = global.userId;
     _controller1 = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -69,98 +76,124 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background gradient
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.primary,
-                    AppColors.secondary.withOpacity(0.15),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+      key: _scaffoldKey,
+      drawer: ProfileDrawer(),
+      appBar: AppBar(
+        shadowColor: blackColor,
+        elevation: 2,
+        automaticallyImplyLeading: false,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+        backgroundColor: greyColor,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Welcome, ${userName}",
+                    style: headingTextStyle.copyWith(fontSize: 20),
+                  ),
+                  //Text("901901313   Updater", style: smallTextStyle),
+                ],
+              ),
+              GestureDetector(
+                onTap: () {
+                  _scaffoldKey.currentState?.openDrawer();
+                },
+                child: CircleAvatar(
+                  backgroundColor: whiteColor,
+                  radius: MediaQuery.of(context).size.width * 0.06,
+                  backgroundImage: AssetImage("assets/salt.png"),
                 ),
               ),
-            ),
+            ],
           ),
-
-          // Decorative circles
-          Positioned(
-            top: -100,
-            left: -100,
-            child: Container(
-              width: 250,
-              height: 250,
-              decoration: BoxDecoration(
-                color: AppColors.secondary.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(200),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -120,
-            right: -100,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                color: AppColors.secondary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(300),
-              ),
-            ),
-          ),
-
-          SafeArea(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 30,
+        ),
+      ),
+      //
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  top: 0,
+                  child: Image.asset(
+                    "assets/salt.png",
+                    fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    width: MediaQuery.of(context).size.width,
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Rainfall Button
-                    FadeTransition(
-                      opacity: _fadeAnimation1,
-                      child: ScaleTransition(
-                        scale: _scaleAnimation1,
-                        child: _buildAnimatedButton(
-                          context,
-                          label: 'Rainfall',
-                          imagePath: 'assets/rain1.jpg',
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/rainfall');
-                          },
-                        ),
+                Positioned(
+                  // bottom: -20,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      // borderRadius: BorderRadius.circular(40),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Color(0xFF8284BE).withOpacity(.1),
+                          Color(0xFF00706E).withOpacity(.3),
+                          Color(0xFF00C9C7).withOpacity(.7),
+                          Color(0xFF00C9C7),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 30),
-
-                    // Baume Reading Button
-                    FadeTransition(
-                      opacity: _fadeAnimation2,
-                      child: ScaleTransition(
-                        scale: _scaleAnimation2,
-                        child: _buildAnimatedButton(
-                          context,
-                          label: 'Baume Reading',
-                          imagePath: 'assets/Lewaya2.jpg',
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/brine');
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
+                Positioned(
+                  bottom: 10,
+                  child: Text(
+                    "Lanka Salt Ltd.",
+                    style: headingTextStyle.copyWith(
+                      fontSize: 26,
+                      color: whiteColor,
+                      letterSpacing: 3,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Categories", style: headingTextStyle),
+                  SizedBox(height: 20),
+                  CategoryContainer(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/rainfall');
+                    },
+                    image: 'assets/rain.gif',
+                    title: 'Rainfall',
+                    subtitle: 'Add Rainfall Details',
+                  ),
+                  SizedBox(height: 20),
+                  CategoryContainer(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/brine');
+                    },
+                    image: 'assets/readings.gif',
+                    title: 'Baume Readings',
+                    subtitle: 'View Detail Reports',
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

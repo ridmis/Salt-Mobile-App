@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:myapp/AppColors.dart';
+import 'package:myapp/constant.dart';
 import 'package:myapp/global.dart' as global;
+import 'package:myapp/reusable_components/profile_drawer.dart';
 
 class SelectPool extends StatefulWidget {
   const SelectPool({super.key});
@@ -11,6 +13,9 @@ class SelectPool extends StatefulWidget {
 }
 
 class _SelectPoolState extends State<SelectPool> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  String name = global.SelectedLName;
   List<Map<String, dynamic>> poolList = [];
   Set<int> washedOutPoolIds = {}; // Track submitted pools
 
@@ -67,82 +72,239 @@ class _SelectPoolState extends State<SelectPool> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      key: _scaffoldKey,
+      drawer: ProfileDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.secondary),
-          onPressed: () => Navigator.pop(context),
+        shadowColor: blackColor,
+        elevation: 2,
+        automaticallyImplyLeading: false,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+        backgroundColor: greyColor,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                        child: Icon(Icons.arrow_back),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Baume Readings",
+                            style: headingTextStyle.copyWith(fontSize: 20),
+                          ),
+                          Text(
+                            name,
+                            style: headingTextStyle.copyWith(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              GestureDetector(
+                onTap: () {
+                  _scaffoldKey.currentState?.openDrawer();
+                },
+                child: CircleAvatar(
+                  backgroundColor: whiteColor,
+                  radius: MediaQuery.of(context).size.width * 0.06,
+                  backgroundImage: AssetImage("assets/salt.png"),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+      // body: SafeArea(
+      //   child: Column(
+      //     crossAxisAlignment: CrossAxisAlignment.center,
+      //     children: [
+      //       const SizedBox(height: 10),
+      //       Text(
+      //         'Select the number',
+      //         style: TextStyle(
+      //           fontSize: 26,
+      //           fontWeight: FontWeight.bold,
+      //           color: AppColors.secondary,
+      //         ),
+      //       ),
+      //       const SizedBox(height: 30),
+      //       Expanded(
+      //         child: GridView.count(
+      //           padding: const EdgeInsets.symmetric(horizontal: 40),
+      //           crossAxisCount: 3,
+      //           crossAxisSpacing: 20,
+      //           mainAxisSpacing: 20,
+      //           children:
+      //               poolList.map((pool) {
+      //                 final poolId = pool['P_Id'];
+      //                 final isWashedOut = washedOutPoolIds.contains(poolId);
+
+      //                 return ElevatedButton(
+      //                   onPressed:
+      //                       isWashedOut
+      //                           ? null
+      //                           : () async {
+      //                             global.selectedPId = poolId;
+      //                             global.selectedPoolName = pool['name'];
+
+      //                             final result = await Navigator.pushNamed(
+      //                               context,
+      //                               '/mbasin',
+      //                               arguments: poolId.toString(),
+      //                             );
+
+      //                             if (result != null && result is String) {
+      //                               setState(() {
+      //                                 washedOutPoolIds.add(poolId);
+      //                               });
+      //                             }
+      //                           },
+      //                   style: ElevatedButton.styleFrom(
+      //                     backgroundColor:
+      //                         isWashedOut ? Colors.grey : AppColors.thirtary,
+      //                     foregroundColor: AppColors.primary,
+      //                     shape: RoundedRectangleBorder(
+      //                       borderRadius: BorderRadius.circular(20),
+      //                     ),
+      //                     textStyle: const TextStyle(
+      //                       fontWeight: FontWeight.bold,
+      //                       fontSize: 18,
+      //                     ),
+      //                   ),
+      //                   child: Text(
+      //                     isWashedOut
+      //                         ? '${pool['name']} (Washed Out)'
+      //                         : pool['name'] ?? '',
+      //                   ),
+      //                 );
+      //               }).toList(),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 10),
-            Text(
-              'Select the number',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                color: AppColors.secondary,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.25,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: blackColor.withOpacity(0.6),
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
+                  ),
+
+                  image: DecorationImage(
+                    image: AssetImage("assets/istock-484942148.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 30),
-            Expanded(
-              child: GridView.count(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                crossAxisCount: 3,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                children:
-                    poolList.map((pool) {
-                      final poolId = pool['P_Id'];
-                      final isWashedOut = washedOutPoolIds.contains(poolId);
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 35),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        "Select ${global.selectedTypeName} Number",
+                        style: headingTextStyle,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        "Please select the number of ${global.selectedTypeName}",
+                        style: smallTextStyle,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    GridView.count(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                      children:
+                          poolList.map((pool) {
+                            final poolId = pool['P_Id'];
+                            final isWashedOut = washedOutPoolIds.contains(
+                              poolId,
+                            );
 
-                      return ElevatedButton(
-                        onPressed:
-                            isWashedOut
-                                ? null
-                                : () async {
-                                  global.selectedPId = poolId;
-                                  global.selectedPoolName = pool['name'];
+                            return ElevatedButton(
+                              onPressed:
+                                  isWashedOut
+                                      ? null
+                                      : () async {
+                                        global.selectedPId = poolId;
+                                        global.selectedPoolName = pool['name'];
 
-                                  final result = await Navigator.pushNamed(
-                                    context,
-                                    '/mbasin',
-                                    arguments: poolId.toString(),
-                                  );
+                                        final result = 
+                                            await Navigator.pushNamed(
+                                              context,
+                                              '/mbasin',
+                                              arguments: poolId.toString(),
+                                            );
 
-                                  if (result != null && result is String) {
-                                    setState(() {
-                                      washedOutPoolIds.add(poolId);
-                                    });
-                                  }
-                                },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              isWashedOut ? Colors.grey : AppColors.thirtary,
-                          foregroundColor: AppColors.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        child: Text(
-                          isWashedOut
-                              ? '${pool['name']} (Washed Out)'
-                              : pool['name'] ?? '',
-                        ),
-                      );
-                    }).toList(),
+                                        if (result != null &&
+                                            result is String) {
+                                          setState(() {
+                                            washedOutPoolIds.add(poolId);
+                                          });
+                                        }
+                                      },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    isWashedOut ? blueColor2 : greyColor,
+                                foregroundColor: blackColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                textStyle: headingTextStyle.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              child: Text(
+                                isWashedOut
+                                    ? '${pool['name']} (Washed Out)'
+                                    : pool['name'] ?? '',
+                              ),
+                            );
+                          }).toList(),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:myapp/AppColors.dart';
-import 'package:myapp/components.dart';
+import 'package:myapp/constant.dart';
+import 'package:myapp/reusable_components/components.dart';
 import 'package:myapp/global.dart' as global;
 
 class SignIn extends StatefulWidget {
@@ -32,9 +33,9 @@ class _SignInState extends State<SignIn> {
       final storedPass = data['password'];
 
       if (inputPass == storedPass) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Admin login successful")),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Admin login successful")));
         Navigator.pushNamed(context, '/admin');
         return;
       } else {
@@ -51,21 +52,21 @@ class _SignInState extends State<SignIn> {
       final storedPass = data['password'];
 
       if (inputPass == storedPass) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("User login successful")),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("User login successful")));
         global.userId = data['userId'];
         Navigator.pushNamed(context, '/dashboard');
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Invalid password")),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Invalid password")));
         _passController.clear();
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Invalid username")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Invalid username")));
       _userController.clear();
       _passController.clear();
     }
@@ -79,14 +80,14 @@ class _SignInState extends State<SignIn> {
         children: [
           ImageFiltered(
             imageFilter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-            child: Image.asset('assets/Salt_bg.png', fit: BoxFit.cover),
+            child: Image.asset('assets/Epsom-Salts.jpg', fit: BoxFit.cover),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
               decoration: const BoxDecoration(
-                color: AppColors.thirtary,
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40),
                   topRight: Radius.circular(40),
@@ -96,17 +97,28 @@ class _SignInState extends State<SignIn> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Login", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                    const Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 8),
                     const Text(
                       "Please Sign in as an Administrator or User",
-                      style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 87, 86, 86)),
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color.fromARGB(255, 87, 86, 86),
+                      ),
                     ),
                     const SizedBox(height: 20),
                     CustomTextField(
                       controller: _userController,
                       hintText: 'Username',
                       icon: Icons.person,
+                      keyboardType: TextInputType.numberWithOptions(),
+                      readOnly: false,
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
@@ -115,6 +127,8 @@ class _SignInState extends State<SignIn> {
                       icon: Icons.lock,
                       isPassword: true,
                       obscureText: _obscureText,
+                      keyboardType: TextInputType.numberWithOptions(),
+                      readOnly: false,
                       togglePasswordVisibility: () {
                         setState(() {
                           _obscureText = !_obscureText;
@@ -122,10 +136,7 @@ class _SignInState extends State<SignIn> {
                       },
                     ),
                     const SizedBox(height: 24),
-                    CustomButton(
-                      label: 'Sign In',
-                      onPressed: login,
-                    ),
+                    CustomButton(label: 'Sign In', onPressed: login),
                   ],
                 ),
               ),

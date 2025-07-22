@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/AppColors.dart';
+import 'package:myapp/constant.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:myapp/reusable_components/large_elevated_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,82 +44,178 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(textTheme: GoogleFonts.poppinsTextTheme()),
       home: Scaffold(
-        backgroundColor: AppColors.thirtary,
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Top title
-              Padding(
-                padding: const EdgeInsets.only(top: 40.0),
-                child: Text(
-                  'Lanka Salt Ltd',
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image(
+              image: AssetImage("assets/Epsom-Salts.jpg"),
+              fit: BoxFit.cover,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Color(0xFF8284BE).withOpacity(.4),
+                      Color(0xFF00706E).withOpacity(.7),
+                      Color(0xFF00706E),
+                      Color(0xFF00706E),
+                    ],
                   ),
                 ),
               ),
-
-              // Logo Image
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Center(
-                  child: Image.asset(
-                    'assets/SaltLogo.png',
-                    height: 400,
-                    width: 250,
-                  ),
-                ),
-              ),
-
-              // "SignIn" Button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF02A8A7),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    fixedSize: const Size(280, 48),
-                    elevation: 4,
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Sign In',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: AppColors.thirtary,
-                        fontWeight: FontWeight.w900,
-                      ),
+            ),
+            Positioned(
+              bottom: MediaQuery.of(context).size.height * 0.03,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Hero(
+                    tag: "bgImage",
+                    child: Image(
+                      image: AssetImage("assets/Lanka-Salt-Logo.png"),
                     ),
                   ),
-                ),
+                  Text(
+                    'Lanka Salt Ltd.',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "The Best Salt Producer in the Country",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: whiteColor,
+                    ),
+                  ),
+                  SizedBox(height: 50),
+                  LargeElevatedButton(
+                    title: "Sign In",
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/login');
+                    },
+                  ),
+                  SizedBox(height: 40),
+                  Text(
+                    "Powered by",
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: whiteColor,
+                    ),
+                  ),
+                  Image(
+                    image: AssetImage("assets/Logo-SLT.png"),
+                    width: 90,
+                    height: 35,
+                  ),
+                ],
               ),
-              const SizedBox(height: 20),
-
-              
-              
-
-              // Footer
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0, top: 0.5),
-                child: Text(
-                  'Powered by Slt',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+
+// Scaffold(
+//       body: Stack(
+//         alignment: Alignment.center,
+//         children: [
+//           Image(
+//             image: AssetImage("images/Epsom-Salts.jpg"),
+//             fit: BoxFit.cover,
+//             height: MediaQuery.of(context).size.height,
+//             width: MediaQuery.of(context).size.width,
+//           ),
+//           Positioned(
+//             bottom: 0,
+//             left: 0,
+//             right: 0,
+//             child: Container(
+//               height: MediaQuery.of(context).size.height * 0.7,
+//               decoration: BoxDecoration(
+//                 gradient: LinearGradient(
+//                   begin: Alignment.topCenter,
+//                   end: Alignment.bottomCenter,
+//                   colors: [
+//                     Colors.transparent,
+//                     Color(0xFF8284BE).withOpacity(.4),
+//                     Color(0xFF00706E).withOpacity(.7),
+//                     Color(0xFF00706E),
+//                     Color(0xFF00706E),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             bottom: MediaQuery.of(context).size.height * 0.03,
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 Hero(
+//                   tag: "bgImage",
+//                   child: Image(image: AssetImage("images/Lanka-Salt-Logo.png")),
+//                 ),
+//                 Text(
+//                   'Lanka Salt Ltd.',
+//                   style: TextStyle(
+//                     fontSize: 40,
+//                     fontWeight: FontWeight.w900,
+//                     color: Colors.white,
+//                   ),
+//                 ),
+//                 Text(
+//                   "The Best Salt Producer in the Country",
+//                   style: TextStyle(
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.normal,
+//                     color: whiteColor,
+//                   ),
+//                 ),
+//                 SizedBox(height: 50),
+//                 LargeElevatedButton(
+//                   title: "Sign In",
+//                   onPressed: () {
+//                     Navigator.pushNamed(context, '/login');
+//                   },
+//                 ),
+//                 SizedBox(height: 40),
+//                 Text(
+//                   "Powered by",
+//                   style: TextStyle(
+//                     fontStyle: FontStyle.italic,
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.normal,
+//                     color: whiteColor,
+//                   ),
+//                 ),
+//                 Image(
+//                   image: AssetImage("images/Logo-SLT.png"),
+//                   width: 90,
+//                   height: 35,
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );

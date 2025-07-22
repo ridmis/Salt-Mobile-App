@@ -38,7 +38,7 @@ class _LoadingScreenState extends State<LoadingScreen>
       CurvedAnimation(parent: _logoController, curve: Curves.easeOutBack),
     );
 
-    // Animate text 
+    // Animate text
     _textController = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,

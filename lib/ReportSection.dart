@@ -1,4 +1,4 @@
-import 'dart:io';
+//import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:myapp/AppColors.dart';
 
@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:csv/csv.dart';
-import 'package:path_provider/path_provider.dart';
+//import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'dart:convert';
-
-import 'dart:html' as html;
+import 'web_helper.dart'
+    if (dart.library.io) 'mobile_helper.dart'
+    as file_helper;
 
 class ReportSection extends StatefulWidget {
   @override
@@ -191,35 +192,26 @@ class _ReportSectionState extends State<ReportSection> {
 
     if (kIsWeb) {
       final bytes = utf8.encode(csvData);
-      final blob = html.Blob([bytes], 'text/csv');
-      final url = html.Url.createObjectUrlFromBlob(blob);
-      final anchor =
-          html.document.createElement('a') as html.AnchorElement
-            ..href = url
-            ..style.display = 'none'
-            ..download =
-                'report_export_${DateTime.now().millisecondsSinceEpoch}.csv';
-      html.document.body!.append(anchor);
-      anchor.click();
-      anchor.remove();
-      html.Url.revokeObjectUrl(url);
-
+      file_helper.downloadFile(
+        bytes,
+        'report_export_${DateTime.now().millisecondsSinceEpoch}.csv',
+        'text/csv',
+      );
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('CSV download started')));
     } else {
-      final directory = await getExternalStorageDirectory();
-      final path =
-          '${directory?.path}/report_export_${DateTime.now().millisecondsSinceEpoch}.csv';
-      final file = File(path);
-      await file.writeAsString(csvData);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('CSV exported to: $path'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      // final bytes = utf8.encode(csvData);
+      // final path = await file_helper.saveFileToDevice(
+      //   bytes,
+      //   'report_export_${DateTime.now().millisecondsSinceEpoch}.csv',
+      // );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('CSV exported to: $path'),
+      //     backgroundColor: Colors.green,
+      //   ),
+      // );
     }
   }
 
@@ -301,35 +293,26 @@ class _ReportSectionState extends State<ReportSection> {
 
     if (kIsWeb) {
       final bytes = await pdf.save();
-      final blob = html.Blob([bytes], 'application/pdf');
-      final url = html.Url.createObjectUrlFromBlob(blob);
-      final anchor =
-          html.document.createElement('a') as html.AnchorElement
-            ..href = url
-            ..style.display = 'none'
-            ..download =
-                'report_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
-      html.document.body!.append(anchor);
-      anchor.click();
-      anchor.remove();
-      html.Url.revokeObjectUrl(url);
-
+      file_helper.downloadFile(
+        bytes,
+        'report_export_${DateTime.now().millisecondsSinceEpoch}.pdf',
+        'application/pdf',
+      );
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('PDF download started')));
     } else {
-      final directory = await getExternalStorageDirectory();
-      final path =
-          '${directory?.path}/report_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
-      final file = File(path);
-      await file.writeAsBytes(await pdf.save());
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('PDF exported to: $path'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      // final bytes = await pdf.save();
+      // final path = await file_helper.saveFileToDevice(
+      //   bytes,
+      //   'report_export_${DateTime.now().millisecondsSinceEpoch}.pdf',
+      // );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('PDF exported to: $path'),
+      //     backgroundColor: Colors.green,
+      //   ),
+      // );
     }
   }
 

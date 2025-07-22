@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/AppColors.dart';
+import 'package:myapp/constant.dart';
 import 'package:myapp/global.dart' as global;
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:myapp/reusable_components/components.dart';
+import 'package:myapp/reusable_components/large_elevated_button.dart';
+import 'package:myapp/reusable_components/profile_drawer.dart';
 
 class MahalewayaBasin extends StatelessWidget {
   @override
@@ -27,6 +31,9 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
   late TextEditingController upperDensityController;
   late TextEditingController lowerDensityController;
   late TextEditingController depthController;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  String name = global.SelectedLName;
 
   bool isEditing = false;
   String? editKey;
@@ -106,8 +113,34 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
           "L_Density(Kgm-3)": lower,
           "Depth": depth,
         });
+
+        if (!global.submittedPools.contains(global.selectedPId)) {
+          global.submittedPools.add(global.selectedPId);
+          for (var pool in global.submittedPools) {
+            print(pool);
+          }
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Data updated successfully')),
+          SnackBar(
+            padding: EdgeInsets.symmetric(vertical: 30),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+            ),
+            backgroundColor: greenColor,
+
+            content: Text(
+              textAlign: TextAlign.center,
+              "Data updated successfully",
+              style: smallTextStyle.copyWith(
+                color: whiteColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         );
       } else {
         await ref.push().set({
@@ -123,7 +156,25 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
           "userId": global.userId,
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Data submitted successfully')),
+          SnackBar(
+            padding: EdgeInsets.symmetric(vertical: 30),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+            ),
+            backgroundColor: greenColor,
+
+            content: Text(
+              textAlign: TextAlign.center,
+              "Data submitted successfully",
+              style: smallTextStyle.copyWith(
+                color: whiteColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         );
       }
 
@@ -142,103 +193,261 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
 
   @override
   Widget build(BuildContext context) {
+    // return Scaffold(
+    //   backgroundColor: AppColors.primary,
+    //   extendBodyBehindAppBar: true,
+    //   appBar: AppBar(
+    //     backgroundColor: Colors.transparent,
+    //     elevation: 0,
+    //     leading: IconButton(
+    //       icon: Icon(Icons.arrow_back, color: AppColors.thirtary),
+    //       onPressed: () => Navigator.pop(context),
+    //     ),
+    //     actions: [
+    //       if (isEditing)
+    //         IconButton(
+    //           icon: const Icon(Icons.edit, color: AppColors.thirtary),
+    //           onPressed: () {
+    //             loadEditData();
+    //           },
+    //         ),
+    //     ],
+    //   ),
+    //   body: Stack(
+    //     children: [
+    //       Positioned(top: -100, left: -100, child: _circle(300)),
+    //       Positioned(top: 600, right: -70, child: _circle(300)),
+    //       SafeArea(
+    //         child: Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 30),
+    //           child: Column(
+    //             children: [
+    //               const SizedBox(height: 40),
+    //               Text(
+    //                 '${global.SelectedLName} - ${global.selectedTypeName}',
+    //                 style: const TextStyle(
+    //                   fontSize: 26,
+    //                   fontWeight: FontWeight.bold,
+    //                   color: AppColors.thirtary,
+    //                 ),
+    //               ),
+    //               const SizedBox(height: 40),
+    //               Form(
+    //                 key: _formKey,
+    //                 child: Column(
+    //                   children: [
+    //                     formLabel(global.selectedTypeName),
+    //                     customInputField(
+    //                       controller: poolNameController,
+    //                       readOnly: true,
+    //                     ),
+    //                     formLabel("Upper Density ( Be )"),
+    //                     customInputField(
+    //                       controller: upperDensityController,
+    //                       keyboardType: TextInputType.numberWithOptions(
+    //                         decimal: true,
+    //                       ),
+    //                     ),
+    //                     formLabel("Lower Density ( Be )"),
+    //                     customInputField(
+    //                       controller: lowerDensityController,
+    //                       keyboardType: TextInputType.numberWithOptions(
+    //                         decimal: true,
+    //                       ),
+    //                     ),
+    //                     formLabel("Depth ( in )"),
+    //                     customInputField(
+    //                       controller: depthController,
+    //                       keyboardType: TextInputType.numberWithOptions(
+    //                         decimal: true,
+    //                       ),
+    //                     ),
+    //                     const SizedBox(height: 20),
+    //                     Center(
+    //                       child: ElevatedButton(
+    //                         onPressed: handleSubmit,
+    //                         style: ElevatedButton.styleFrom(
+    //                           backgroundColor: AppColors.thirtary,
+    //                           foregroundColor: AppColors.primary,
+    //                           shape: RoundedRectangleBorder(
+    //                             borderRadius: BorderRadius.circular(20),
+    //                           ),
+    //                         ),
+    //                         child: Padding(
+    //                           padding: const EdgeInsets.symmetric(
+    //                             horizontal: 24,
+    //                             vertical: 8,
+    //                           ),
+    //                           child: Text(isEditing ? 'Save' : 'Submit'),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
     return Scaffold(
-      backgroundColor: AppColors.primary,
-      extendBodyBehindAppBar: true,
+      key: _scaffoldKey,
+      drawer: ProfileDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.thirtary),
-          onPressed: () => Navigator.pop(context),
-        ),
-        actions: [
-          if (isEditing)
-            IconButton(
-              icon: const Icon(Icons.edit, color: AppColors.thirtary),
-              onPressed: () {
-                loadEditData();
-              },
-            ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          Positioned(top: -100, left: -100, child: _circle(300)),
-          Positioned(top: 600, right: -70, child: _circle(300)),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
+        shadowColor: blackColor,
+        elevation: 2,
+        automaticallyImplyLeading: false,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+        backgroundColor: greyColor,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 40),
-                  Text(
-                    '${global.SelectedLName} - ${global.selectedTypeName}',
-                    style: const TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.thirtary,
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        formLabel(global.selectedTypeName),
-                        customInputField(
-                          controller: poolNameController,
-                          readOnly: true,
-                        ),
-                        formLabel("Upper Density ( Be )"),
-                        customInputField(
-                          controller: upperDensityController,
-                          keyboardType: TextInputType.numberWithOptions(
-                            decimal: true,
+                  Row(
+                    children: [
+                      GestureDetector(
+                        child: Icon(Icons.arrow_back),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Baume Readings",
+                            style: headingTextStyle.copyWith(fontSize: 20),
                           ),
-                        ),
-                        formLabel("Lower Density ( Be )"),
-                        customInputField(
-                          controller: lowerDensityController,
-                          keyboardType: TextInputType.numberWithOptions(
-                            decimal: true,
+                          Text(
+                            name,
+                            style: headingTextStyle.copyWith(fontSize: 16),
                           ),
-                        ),
-                        formLabel("Depth ( in )"),
-                        customInputField(
-                          controller: depthController,
-                          keyboardType: TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: handleSubmit,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.thirtary,
-                              foregroundColor: AppColors.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24,
-                                vertical: 8,
-                              ),
-                              child: Text(isEditing ? 'Save' : 'Submit'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ),
+              GestureDetector(
+                onTap: () {
+                  _scaffoldKey.currentState?.openDrawer();
+                },
+                child: CircleAvatar(
+                  backgroundColor: whiteColor,
+                  radius: MediaQuery.of(context).size.width * 0.06,
+                  backgroundImage: AssetImage("assets/salt.png"),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.25,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: blackColor.withOpacity(0.6),
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
+                  ),
+
+                  image: DecorationImage(
+                    image: AssetImage("assets/istock-484942148.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(40),
+
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${global.selectedTypeName} Details",
+                        style: headingTextStyle,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        "${global.selectedTypeName} Number",
+                        style: smallTextStyle,
+                      ),
+                      SizedBox(height: 10),
+                      customInputField(
+                        icon: Icons.my_location_rounded,
+                        hintText: "${global.selectedPoolName}",
+                        controller: poolNameController,
+                        readOnly: true,
+                      ),
+
+                      SizedBox(height: 20),
+                      Text("Upper Density (Be)", style: smallTextStyle),
+                      SizedBox(height: 10),
+                      customInputField(
+                        icon: Icons.trending_up_rounded,
+                        hintText: "Kg/m³",
+                        controller: upperDensityController,
+                        readOnly: false,
+                        keyboardType: TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Text("Lower Density (Be)", style: smallTextStyle),
+                      SizedBox(height: 10),
+                      customInputField(
+                        icon: Icons.trending_down_rounded,
+                        hintText: "Kg/m³",
+                        controller: lowerDensityController,
+                      ),
+
+                      SizedBox(height: 20),
+                      Text("Depth (in)", style: smallTextStyle),
+                      SizedBox(height: 10),
+                      customInputField(
+                        icon: Icons.arrow_downward_rounded,
+                        hintText: " m",
+                        controller: depthController,
+                        readOnly: false,
+                        keyboardType: TextInputType.text,
+                      ),
+                      SizedBox(height: 30),
+
+                      SizedBox(height: 10),
+                      LargeElevatedButton(
+                        title: "Submit",
+                        onPressed: () {
+                          handleSubmit();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -254,11 +463,14 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
     ),
   );
   Widget customInputField({
+    required IconData icon,
+    required String hintText,
     required TextEditingController controller,
     bool readOnly = false,
     TextInputType keyboardType = TextInputType.text,
   }) {
     return TextFormField(
+      cursorColor: greyColor,
       controller: controller,
       readOnly: readOnly,
       keyboardType: keyboardType,
@@ -273,10 +485,16 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
         return null;
       },
       decoration: InputDecoration(
+        icon: Icon(icon),
+        hintText: hintText,
+        hintStyle: smallTextStyle,
         filled: true,
-        fillColor: AppColors.thirtary,
+        fillColor: greyColor,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide.none,
+        ),
       ),
     );
   }
