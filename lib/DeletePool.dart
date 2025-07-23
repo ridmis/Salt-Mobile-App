@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:myapp/AppColors.dart';
+import 'package:myapp/constant.dart';
+import 'package:myapp/reusable_components/small_elevated_button.dart';
 
 void showDeletePoolDialog(BuildContext context) {
   showDialog(
     context: context,
-    barrierDismissible: false,
+    barrierDismissible: true,
     builder:
         (context) => const Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderRadius: BorderRadius.all(Radius.circular(40)),
           ),
           child: DeletePoolForm(),
         ),
@@ -116,7 +118,26 @@ class _DeletePoolFormState extends State<DeletePoolForm> {
   void _deletePool() async {
     if (selectedLId == null || selectedTId == null || selectedPId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select Lewaya, Type, and Pool')),
+        // const SnackBar(content: Text('Please select Lewaya, Type, and Pool')),
+        SnackBar(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          backgroundColor: redColor,
+
+          content: Text(
+            textAlign: TextAlign.center,
+            "Please select Lewaya, Type and Pool to delete",
+            style: smallTextStyle.copyWith(
+              color: whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       );
       return;
     }
@@ -137,38 +158,49 @@ class _DeletePoolFormState extends State<DeletePoolForm> {
       }
     }
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Pool "$selectedPoolName" deleted')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      // SnackBar(content: Text('Pool "$selectedPoolName" deleted'))
+      SnackBar(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        backgroundColor: greenColor,
+
+        content: Text(
+          textAlign: TextAlign.center,
+          "Pool $selectedPoolName deleted",
+          style: smallTextStyle.copyWith(
+            color: whiteColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.secondary],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(40)),
       ),
       child: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          // mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Delete Pool',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: AppColors.thirtary,
-              ),
-            ),
+            Text('Delete Pool', style: headingTextStyle),
             const SizedBox(height: 20),
+            Text('Please select the Lewaya', style: smallTextStyle),
+            const SizedBox(height: 15),
 
             DropdownButtonFormField<String>(
               value: selectedLewayaName,
@@ -187,20 +219,37 @@ class _DeletePoolFormState extends State<DeletePoolForm> {
                   fetchTypes(selectedLId!);
                 });
               },
-              decoration: const InputDecoration(
-                labelText: 'Select Lewaya',
-                labelStyle: TextStyle(color: AppColors.thirtary),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: greyColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary, width: 2),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                // labelText: 'Select Current Name',
+                // labelStyle: smallTextStyle,
+                hint: Row(
+                  children: [
+                    Icon(Icons.my_location_rounded),
+                    SizedBox(width: 15),
+                    Text("Select", style: smallTextStyle),
+                  ],
                 ),
               ),
-              dropdownColor: AppColors.secondary,
-              style: const TextStyle(color: AppColors.thirtary),
+              dropdownColor: greyColor,
+              style: smallTextStyle,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
+            Text('Please select the Type', style: smallTextStyle),
+            const SizedBox(height: 15),
 
             DropdownButtonFormField<String>(
               value: selectedTypeName,
@@ -219,20 +268,37 @@ class _DeletePoolFormState extends State<DeletePoolForm> {
                   fetchPools(selectedLId!, selectedTId!);
                 });
               },
-              decoration: const InputDecoration(
-                labelText: 'Select Type',
-                labelStyle: TextStyle(color: AppColors.thirtary),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: greyColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary, width: 2),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                // labelText: 'Select Current Name',
+                // labelStyle: smallTextStyle,
+                hint: Row(
+                  children: [
+                    Icon(Icons.menu_open_rounded),
+                    SizedBox(width: 15),
+                    Text("Select", style: smallTextStyle),
+                  ],
                 ),
               ),
-              dropdownColor: AppColors.secondary,
-              style: const TextStyle(color: AppColors.thirtary),
+              dropdownColor: greyColor,
+              style: smallTextStyle,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
+            Text('Please select the Pool', style: smallTextStyle),
+            const SizedBox(height: 15),
 
             DropdownButtonFormField<String>(
               value: selectedPoolName,
@@ -250,47 +316,86 @@ class _DeletePoolFormState extends State<DeletePoolForm> {
                       poolList.firstWhere((e) => e['P_Name'] == val)['P_Id'];
                 });
               },
-              decoration: const InputDecoration(
-                labelText: 'Select Pool',
-                labelStyle: TextStyle(color: AppColors.thirtary),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: greyColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary, width: 2),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                // labelText: 'Select Current Name',
+                // labelStyle: smallTextStyle,
+                hint: Row(
+                  children: [
+                    Icon(Icons.menu_open_rounded),
+                    SizedBox(width: 15),
+                    Text("Select", style: smallTextStyle),
+                  ],
                 ),
               ),
-              dropdownColor: AppColors.secondary,
-              style: const TextStyle(color: AppColors.thirtary),
+              dropdownColor: greyColor,
+              style: smallTextStyle,
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 35),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     ElevatedButton(
+            //       onPressed: _deletePool,
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: AppColors.secondary,
+            //         foregroundColor: AppColors.thirtary,
+            //         padding: const EdgeInsets.symmetric(
+            //           horizontal: 24,
+            //           vertical: 12,
+            //         ),
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(12),
+            //         ),
+            //         elevation: 6,
+            //       ),
+            //       child: const Text('Delete'),
+            //     ),
+            //     TextButton(
+            //       onPressed: () => Navigator.pop(context),
+            //       child: const Text(
+            //         'Cancel',
+            //         style: TextStyle(color: AppColors.thirtary),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
-                  onPressed: _deletePool,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.secondary,
-                    foregroundColor: AppColors.thirtary,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 6,
-                  ),
-                  child: const Text('Delete'),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(color: AppColors.thirtary),
+                SizedBox(width: 25),
+                Expanded(
+                  child: SmallElevatedButton(
+                    title: "Delete",
+                    onPressed: _deletePool,
+                    color: redColor,
                   ),
                 ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: SmallElevatedButton(
+                    title: "Cancel",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    color: darkGreyColor,
+                  ),
+                ),
+                SizedBox(width: 25),
               ],
             ),
           ],

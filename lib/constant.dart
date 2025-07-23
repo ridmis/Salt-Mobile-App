@@ -16,7 +16,7 @@ TextStyle headingTextStyle = TextStyle(
 );
 
 final TextStyle smallTextStyle = TextStyle(fontSize: 14, color: blackColor);
-
+final TextStyle tableDataTextStyle = TextStyle(fontSize: 12, color: blackColor);
 final TextStyle buttonTextStyle = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.bold,

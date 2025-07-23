@@ -287,8 +287,27 @@ class _CreateItemsState extends State<CreateItems> {
 
     if (selectedLIdforPool == null || selectedTId == null || poolName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select Lewaya, Type, and enter Pool name'),
+        // const SnackBar(
+        //   content: Text('Please select Lewaya, Type, and enter Pool name'),
+        // ),
+        SnackBar(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          backgroundColor: redColor,
+
+          content: Text(
+            textAlign: TextAlign.center,
+            "Please select Lewaya, Type, and enter Pool name",
+            style: smallTextStyle.copyWith(
+              color: whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       );
       return;
@@ -315,7 +334,26 @@ class _CreateItemsState extends State<CreateItems> {
     await dbRef.child('$newPid').set(newPool);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Pool "$poolName" added successfully')),
+      // SnackBar(content: Text('Pool "$poolName" added successfully')),
+      SnackBar(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        backgroundColor: greenColor,
+
+        content: Text(
+          textAlign: TextAlign.center,
+          "Pool $poolName added successfully",
+          style: smallTextStyle.copyWith(
+            color: whiteColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
 
     Navigator.pop(context);

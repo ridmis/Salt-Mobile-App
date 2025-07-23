@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:myapp/AppColors.dart';
+import 'package:myapp/constant.dart';
+import 'package:myapp/reusable_components/components.dart';
+import 'package:myapp/reusable_components/small_elevated_button.dart';
 
 void showUpdatePoolDialog(BuildContext context) {
   showDialog(
     context: context,
-    barrierDismissible: false,
+    barrierDismissible: true,
     builder:
         (context) => const Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderRadius: BorderRadius.all(Radius.circular(40)),
           ),
           child: UpdatePoolForm(),
         ),
@@ -118,8 +121,27 @@ class _UpdatePoolFormState extends State<UpdatePoolForm> {
         selectedPId == null ||
         newName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select Lewaya, Type, Pool, and enter new name'),
+        // const SnackBar(
+        //   content: Text('Please select Lewaya, Type, Pool, and enter new name'),
+        // ),
+        SnackBar(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          backgroundColor: redColor,
+
+          content: Text(
+            textAlign: TextAlign.center,
+            "Please select Lewaya, Type, Pool, and New name",
+            style: smallTextStyle.copyWith(
+              color: whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       );
       return;
@@ -142,7 +164,26 @@ class _UpdatePoolFormState extends State<UpdatePoolForm> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Pool "$selectedPoolName" updated to "$newName"')),
+      // SnackBar(content: Text('Pool "$selectedPoolName" updated to "$newName"')),
+      SnackBar(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        backgroundColor: greenColor,
+
+        content: Text(
+          textAlign: TextAlign.center,
+          "$selectedPoolName updated to $newName",
+          style: smallTextStyle.copyWith(
+            color: whiteColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
     Navigator.pop(context);
   }
@@ -150,29 +191,21 @@ class _UpdatePoolFormState extends State<UpdatePoolForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.secondary],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(40)),
       ),
       child: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          // mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Update Pool Name',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: AppColors.thirtary,
-              ),
-            ),
+            Text('Update Pool', style: headingTextStyle),
             const SizedBox(height: 20),
+            Text('Please select the Lewaya', style: smallTextStyle),
+            const SizedBox(height: 15),
 
             DropdownButtonFormField<String>(
               value: selectedLewayaName,
@@ -191,20 +224,37 @@ class _UpdatePoolFormState extends State<UpdatePoolForm> {
                   fetchTypes(selectedLId!);
                 });
               },
-              decoration: const InputDecoration(
-                labelText: 'Select Lewaya',
-                labelStyle: TextStyle(color: AppColors.thirtary),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: greyColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary, width: 2),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                // labelText: 'Select Current Name',
+                // labelStyle: smallTextStyle,
+                hint: Row(
+                  children: [
+                    Icon(Icons.my_location_rounded),
+                    SizedBox(width: 15),
+                    Text("Select", style: smallTextStyle),
+                  ],
                 ),
               ),
-              dropdownColor: AppColors.secondary,
-              style: const TextStyle(color: AppColors.thirtary),
+              dropdownColor: greyColor,
+              style: smallTextStyle,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
+            Text('Please select Type', style: smallTextStyle),
+            const SizedBox(height: 15),
 
             DropdownButtonFormField<String>(
               value: selectedTypeName,
@@ -223,20 +273,37 @@ class _UpdatePoolFormState extends State<UpdatePoolForm> {
                   fetchPools(selectedLId!, selectedTId!);
                 });
               },
-              decoration: const InputDecoration(
-                labelText: 'Select Type',
-                labelStyle: TextStyle(color: AppColors.thirtary),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: greyColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary, width: 2),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                // labelText: 'Select Current Name',
+                // labelStyle: smallTextStyle,
+                hint: Row(
+                  children: [
+                    Icon(Icons.menu_open_rounded),
+                    SizedBox(width: 15),
+                    Text("Select", style: smallTextStyle),
+                  ],
                 ),
               ),
-              dropdownColor: AppColors.secondary,
-              style: const TextStyle(color: AppColors.thirtary),
+              dropdownColor: greyColor,
+              style: smallTextStyle,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
+            Text('Please select Pool', style: smallTextStyle),
+            const SizedBox(height: 15),
 
             DropdownButtonFormField<String>(
               value: selectedPoolName,
@@ -254,63 +321,108 @@ class _UpdatePoolFormState extends State<UpdatePoolForm> {
                       poolList.firstWhere((e) => e['P_Name'] == val)['P_Id'];
                 });
               },
-              decoration: const InputDecoration(
-                labelText: 'Select Pool',
-                labelStyle: TextStyle(color: AppColors.thirtary),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: greyColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary, width: 2),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                // labelText: 'Select Current Name',
+                // labelStyle: smallTextStyle,
+                hint: Row(
+                  children: [
+                    Icon(Icons.menu_open_rounded),
+                    SizedBox(width: 15),
+                    Text("Select", style: smallTextStyle),
+                  ],
                 ),
               ),
-              dropdownColor: AppColors.secondary,
-              style: const TextStyle(color: AppColors.thirtary),
+              dropdownColor: greyColor,
+              style: smallTextStyle,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
-            TextField(
+            // TextField(
+            //   controller: _newNameController,
+            //   style: const TextStyle(color: AppColors.thirtary),
+            //   decoration: const InputDecoration(
+            //     labelText: 'New Pool Name',
+            //     labelStyle: TextStyle(color: AppColors.thirtary),
+            //     enabledBorder: OutlineInputBorder(
+            //       borderSide: BorderSide(color: AppColors.thirtary),
+            //     ),
+            //     focusedBorder: OutlineInputBorder(
+            //       borderSide: BorderSide(color: AppColors.thirtary, width: 2),
+            //     ),
+            //   ),
+            // ),
+            CustomTextField(
               controller: _newNameController,
-              style: const TextStyle(color: AppColors.thirtary),
-              decoration: const InputDecoration(
-                labelText: 'New Pool Name',
-                labelStyle: TextStyle(color: AppColors.thirtary),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary, width: 2),
-                ),
-              ),
+              hintText: "New Pool",
+              icon: Icons.message_rounded,
+              readOnly: false,
+              keyboardType: TextInputType.text,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 35),
 
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     ElevatedButton(
+            //       onPressed: _updatePool,
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: AppColors.secondary,
+            //         foregroundColor: AppColors.thirtary,
+            //         padding: const EdgeInsets.symmetric(
+            //           horizontal: 24,
+            //           vertical: 12,
+            //         ),
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(12),
+            //         ),
+            //         elevation: 6,
+            //       ),
+            //       child: const Text('Update'),
+            //     ),
+            //     TextButton(
+            //       onPressed: () => Navigator.pop(context),
+            //       child: const Text(
+            //         'Back',
+            //         style: TextStyle(color: AppColors.thirtary),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
-                  onPressed: _updatePool,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.secondary,
-                    foregroundColor: AppColors.thirtary,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 6,
-                  ),
-                  child: const Text('Update'),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    'Back',
-                    style: TextStyle(color: AppColors.thirtary),
+                SizedBox(width: 25),
+                Expanded(
+                  child: SmallElevatedButton(
+                    title: "Update",
+                    onPressed: _updatePool,
                   ),
                 ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: SmallElevatedButton(
+                    title: "Cancel",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    color: darkGreyColor,
+                  ),
+                ),
+                SizedBox(width: 25),
               ],
             ),
           ],

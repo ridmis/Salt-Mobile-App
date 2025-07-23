@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:myapp/AppColors.dart';
+import 'package:myapp/constant.dart';
+import 'package:myapp/reusable_components/small_elevated_button.dart';
 
 void showDeleteLewayaDialog(BuildContext context) {
   showDialog(
     context: context,
-    barrierDismissible: false,
+    barrierDismissible: true,
     builder:
         (context) => const Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderRadius: BorderRadius.all(Radius.circular(40)),
           ),
           child: DeleteLewayaForm(),
         ),
@@ -61,13 +63,51 @@ class _DeleteLewayaFormState extends State<DeleteLewayaForm> {
       await dbRef.remove();
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Lewaya "$selectedLewayaName" deleted')),
+        // SnackBar(content: Text('Lewaya "$selectedLewayaName" deleted')),
+        SnackBar(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          backgroundColor: greenColor,
+
+          content: Text(
+            textAlign: TextAlign.center,
+            "Lewaya $selectedLewayaName deleted",
+            style: smallTextStyle.copyWith(
+              color: whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       );
 
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a Lewaya to delete')),
+        // const SnackBar(content: Text('Please select a Lewaya to delete')),
+        SnackBar(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          backgroundColor: redColor,
+
+          content: Text(
+            textAlign: TextAlign.center,
+            "Please select a Lewaya to delete",
+            style: smallTextStyle.copyWith(
+              color: whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       );
     }
   }
@@ -76,94 +116,123 @@ class _DeleteLewayaFormState extends State<DeleteLewayaForm> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.secondary],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(40)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text(
-            'Delete Lewaya',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              color: AppColors.thirtary,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 24),
+      child: SingleChildScrollView(
+        child: Column(
+          // mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Delete Lewaya', style: headingTextStyle),
+            const SizedBox(height: 20),
+            Text('Please select the Lewaya', style: smallTextStyle),
+            const SizedBox(height: 15),
 
-          DropdownButtonFormField<String>(
-            value: selectedLewayaId,
-            items:
-                lewayaList.map((item) {
-                  return DropdownMenuItem<String>(
-                    value: item['key'],
-                    child: Text(item['name']),
-                  );
-                }).toList(),
-            onChanged: (value) {
-              final selected = lewayaList.firstWhere(
-                (item) => item['key'] == value,
-              );
-              setState(() {
-                selectedLewayaId = value;
-                selectedLewayaName = selected['name'];
-              });
-            },
-            dropdownColor: AppColors.secondary,
-            decoration: InputDecoration(
-              labelText: 'Select Lewaya',
-              labelStyle: const TextStyle(color: AppColors.thirtary),
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: AppColors.thirtary),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: AppColors.thirtary,
-                  width: 2,
+            DropdownButtonFormField<String>(
+              value: selectedLewayaId,
+              items:
+                  lewayaList.map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item['key'],
+                      child: Text(item['name']),
+                    );
+                  }).toList(),
+              onChanged: (value) {
+                final selected = lewayaList.firstWhere(
+                  (item) => item['key'] == value,
+                );
+                setState(() {
+                  selectedLewayaId = value;
+                  selectedLewayaName = selected['name'];
+                });
+              },
+              dropdownColor: greyColor,
+
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: greyColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
-                borderRadius: BorderRadius.circular(12),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                // labelText: 'Select Current Name',
+                // labelStyle: smallTextStyle,
+                hint: Row(
+                  children: [
+                    Icon(Icons.my_location_rounded),
+                    SizedBox(width: 15),
+                    Text("Select", style: smallTextStyle),
+                  ],
+                ),
               ),
+              style: smallTextStyle,
             ),
-            style: const TextStyle(color: AppColors.thirtary),
-          ),
 
-          const SizedBox(height: 24),
+            // const SizedBox(height: 20),
 
-          ElevatedButton(
-            onPressed: deleteLewaya,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.secondary,
-              foregroundColor: AppColors.thirtary,
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              elevation: 6,
-            ),
-            child: const Text(
-              'Delete Lewaya',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
+            // ElevatedButton(
+            //   onPressed: deleteLewaya,
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: AppColors.secondary,
+            //     foregroundColor: AppColors.thirtary,
+            //     padding: const EdgeInsets.symmetric(vertical: 14),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(12),
+            //     ),
+            //     elevation: 6,
+            //   ),
+            //   child: const Text(
+            //     'Delete Lewaya',
+            //     style: TextStyle(fontWeight: FontWeight.bold),
+            //   ),
+            // ),
 
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Cancel',
-              style: TextStyle(color: Colors.white70),
+            // TextButton(
+            //   onPressed: () => Navigator.pop(context),
+            //   child: const Text(
+            //     'Cancel',
+            //     style: TextStyle(color: Colors.white70),
+            //   ),
+            // ),
+            const SizedBox(height: 35),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(width: 25),
+                Expanded(
+                  child: SmallElevatedButton(
+                    title: "Delete",
+                    onPressed: deleteLewaya,
+                    color: redColor,
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: SmallElevatedButton(
+                    title: "Cancel",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    color: darkGreyColor,
+                  ),
+                ),
+                SizedBox(width: 25),
+              ],
             ),
-          ),
-        ],
+            SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }

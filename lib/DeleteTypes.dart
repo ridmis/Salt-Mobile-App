@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:myapp/AppColors.dart';
+import 'package:myapp/constant.dart';
+import 'package:myapp/reusable_components/small_elevated_button.dart';
 
 void showDeleteTypeDialog(BuildContext context) {
   showDialog(
     context: context,
-    barrierDismissible: false,
-    builder: (context) => const Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      child: DeleteTypeForm(),
-    ),
+    barrierDismissible: true,
+    builder:
+        (context) => const Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40)),
+          ),
+          child: DeleteTypeForm(),
+        ),
   );
 }
 
@@ -71,17 +74,14 @@ class _DeleteTypeFormState extends State<DeleteTypeForm> {
           if (item != null && item['Type_Name'] != null) {
             tempList.add({
               'key': item['T_Id'].toString(),
-              'name': item['Type_Name']
+              'name': item['Type_Name'],
             });
           }
         }
       } else if (data is Map) {
         data.forEach((key, value) {
           if (value != null && value['Type_Name'] != null) {
-            tempList.add({
-              'key': key,
-              'name': value['Type_Name']
-            });
+            tempList.add({'key': key, 'name': value['Type_Name']});
           }
         });
       }
@@ -97,16 +97,56 @@ class _DeleteTypeFormState extends State<DeleteTypeForm> {
   void _deleteType() async {
     if (selectedLewayaId == null || selectedTypeKey == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select Lewaya and Type to delete')),
+        // const SnackBar(content: Text('Please select Lewaya and Type to delete')),
+        SnackBar(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          backgroundColor: redColor,
+
+          content: Text(
+            textAlign: TextAlign.center,
+            "Please select Lewaya and Type to delete",
+            style: smallTextStyle.copyWith(
+              color: whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       );
       return;
     }
 
-    final dbRef = FirebaseDatabase.instance.ref().child('Types/$selectedLewayaId/$selectedTypeKey');
+    final dbRef = FirebaseDatabase.instance.ref().child(
+      'Types/$selectedLewayaId/$selectedTypeKey',
+    );
     await dbRef.remove();
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Type "$selectedTypeName" deleted')),
+      // SnackBar(content: Text('Type "$selectedTypeName" deleted')),
+      SnackBar(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        backgroundColor: greenColor,
+
+        content: Text(
+          textAlign: TextAlign.center,
+          "Type $selectedTypeName deleted",
+          style: smallTextStyle.copyWith(
+            color: whiteColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
 
     Navigator.pop(context);
@@ -115,111 +155,164 @@ class _DeleteTypeFormState extends State<DeleteTypeForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.secondary],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(40)),
       ),
       child: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          // mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Delete Type',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: AppColors.thirtary,
-              ),
-            ),
+            Text('Delete Type', style: headingTextStyle),
             const SizedBox(height: 20),
+            Text('Please select the Lewaya', style: smallTextStyle),
+            const SizedBox(height: 15),
 
             DropdownButtonFormField<String>(
               value: selectedLewayaName,
-              items: lewayaList.map((item) {
-                return DropdownMenuItem<String>(
-                  value: item['name'],
-                  child: Text(item['name']),
-                );
-              }).toList(),
+              items:
+                  lewayaList.map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item['name'],
+                      child: Text(item['name']),
+                    );
+                  }).toList(),
               onChanged: (val) {
                 setState(() {
                   selectedLewayaName = val;
-                  selectedLewayaId = lewayaList.firstWhere((e) => e['name'] == val)['L_ID'];
+                  selectedLewayaId =
+                      lewayaList.firstWhere((e) => e['name'] == val)['L_ID'];
                   fetchTypes(selectedLewayaId!);
                 });
               },
-              dropdownColor: AppColors.secondary,
-              style: const TextStyle(color: AppColors.thirtary),
-              decoration: const InputDecoration(
-                labelText: 'Select Lewaya',
-                labelStyle: TextStyle(color: AppColors.thirtary),
+              dropdownColor: greyColor,
+              style: smallTextStyle,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: greyColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary, width: 2),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                // labelText: 'Select Current Name',
+                // labelStyle: smallTextStyle,
+                hint: Row(
+                  children: [
+                    Icon(Icons.my_location_rounded),
+                    SizedBox(width: 15),
+                    Text("Select", style: smallTextStyle),
+                  ],
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
+            Text('Please select Type', style: smallTextStyle),
+            const SizedBox(height: 15),
 
             DropdownButtonFormField<String>(
               value: selectedTypeName,
-              items: typeList.map((item) {
-                return DropdownMenuItem<String>(
-                  value: item['name'],
-                  child: Text(item['name']),
-                );
-              }).toList(),
+              items:
+                  typeList.map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item['name'],
+                      child: Text(item['name']),
+                    );
+                  }).toList(),
               onChanged: (val) {
                 setState(() {
                   selectedTypeName = val;
-                  selectedTypeKey = typeList.firstWhere((e) => e['name'] == val)['key'];
+                  selectedTypeKey =
+                      typeList.firstWhere((e) => e['name'] == val)['key'];
                 });
               },
-              dropdownColor: AppColors.secondary,
-              style: const TextStyle(color: AppColors.thirtary),
-              decoration: const InputDecoration(
-                labelText: 'Select Type',
-                labelStyle: TextStyle(color: AppColors.thirtary),
+              dropdownColor: greyColor,
+              style: smallTextStyle,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: greyColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.thirtary, width: 2),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                // labelText: 'Select Current Name',
+                // labelStyle: smallTextStyle,
+                hint: Row(
+                  children: [
+                    Icon(Icons.menu_open_rounded),
+                    SizedBox(width: 15),
+                    Text("Select", style: smallTextStyle),
+                  ],
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 35),
 
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     ElevatedButton(
+            //       onPressed: _deleteType,
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: AppColors.secondary,
+            //         foregroundColor: AppColors.thirtary,
+            //         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(12),
+            //         ),
+            //         elevation: 6,
+            //       ),
+            //       child: const Text('Delete'),
+            //     ),
+            //     TextButton(
+            //       onPressed: () => Navigator.pop(context),
+            //       child: const Text('Cancel', style: TextStyle(color: AppColors.thirtary)),
+            //     ),
+            //   ],
+            // ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
-                  onPressed: _deleteType,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.secondary,
-                    foregroundColor: AppColors.thirtary,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 6,
+                SizedBox(width: 25),
+                Expanded(
+                  child: SmallElevatedButton(
+                    title: "Delete",
+                    onPressed: _deleteType,
+                    color: redColor,
                   ),
-                  child: const Text('Delete'),
                 ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Cancel', style: TextStyle(color: AppColors.thirtary)),
+                SizedBox(width: 10),
+                Expanded(
+                  child: SmallElevatedButton(
+                    title: "Cancel",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    color: darkGreyColor,
+                  ),
                 ),
+                SizedBox(width: 25),
               ],
             ),
+            SizedBox(height: 30),
           ],
         ),
       ),

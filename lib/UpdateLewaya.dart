@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:myapp/AppColors.dart';
+import 'package:myapp/constant.dart';
+import 'package:myapp/reusable_components/components.dart';
+import 'package:myapp/reusable_components/large_elevated_button.dart';
+import 'package:myapp/reusable_components/small_elevated_button.dart';
 
 void showUpdateLewayaDialog(BuildContext context) {
   showDialog(
     context: context,
-    barrierDismissible: false,
+    barrierDismissible: true,
     builder:
         (context) => const Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderRadius: BorderRadius.all(Radius.circular(40)),
           ),
           child: UpdateLewayaForm(),
         ),
@@ -61,8 +65,27 @@ class _UpdateLewayaFormState extends State<UpdateLewayaForm> {
         newName.isEmpty ||
         selectedLewayaKey == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select a Lewaya and enter a new name'),
+        // const SnackBar(
+        //   content: Text('Please select a Lewaya and enter a new name'),
+        // ),
+        SnackBar(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          backgroundColor: redColor,
+
+          content: Text(
+            textAlign: TextAlign.center,
+            "Please select a Lewaya and enter a new name",
+            style: smallTextStyle.copyWith(
+              color: whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       );
       return;
@@ -74,7 +97,26 @@ class _UpdateLewayaFormState extends State<UpdateLewayaForm> {
     await dbRef.update({'name': newName});
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('"$selectedLewayaName" updated to "$newName"')),
+      // SnackBar(content: Text('"$selectedLewayaName" updated to "$newName"')),
+      SnackBar(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        backgroundColor: greenColor,
+
+        content: Text(
+          textAlign: TextAlign.center,
+          "$selectedLewayaName updated to $newName",
+          style: smallTextStyle.copyWith(
+            color: whiteColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
 
     Navigator.pop(context);
@@ -83,32 +125,27 @@ class _UpdateLewayaFormState extends State<UpdateLewayaForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
-      width: MediaQuery.of(context).size.width * 0.9,
+      padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 16),
+      width: double.infinity,
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.secondary],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(40)),
       ),
       child: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Update Lewaya',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: AppColors.thirtary,
-              ),
-            ),
+            Text('Update Lewaya', style: headingTextStyle),
             const SizedBox(height: 20),
+            Text('Please select the Lewaya', style: smallTextStyle),
+            const SizedBox(height: 15),
 
             // Dropdown for current name
             DropdownButtonFormField<String>(
+              // itemHeight: 30,
+
+              // elevation: 4,
               value: selectedLewayaName,
               items:
                   lewayaList.map((item) {
@@ -126,79 +163,119 @@ class _UpdateLewayaFormState extends State<UpdateLewayaForm> {
                       )['key'];
                 });
               },
-              dropdownColor: AppColors.secondary,
-              style: const TextStyle(color: AppColors.thirtary),
+              dropdownColor: greyColor,
+              style: smallTextStyle,
               decoration: InputDecoration(
-                labelText: 'Select Current Name',
-                labelStyle: const TextStyle(color: AppColors.thirtary),
+                filled: true,
+                fillColor: greyColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.thirtary),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: AppColors.thirtary,
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                // labelText: 'Select Current Name',
+                // labelStyle: smallTextStyle,
+                hint: Row(
+                  children: [
+                    Icon(Icons.my_location_rounded),
+                    SizedBox(width: 15),
+                    Text("Select", style: smallTextStyle),
+                  ],
                 ),
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
             // New name field
-            TextField(
+            // TextField(
+            //   controller: _newController,
+            //   style: const TextStyle(color: AppColors.thirtary),
+            //   decoration: InputDecoration(
+            //     labelText: 'New Name',
+            //     labelStyle: const TextStyle(color: AppColors.thirtary),
+            //     enabledBorder: OutlineInputBorder(
+            //       borderSide: const BorderSide(color: AppColors.thirtary),
+            //       borderRadius: BorderRadius.circular(12),
+            //     ),
+            //     focusedBorder: OutlineInputBorder(
+            //       borderSide: const BorderSide(
+            //         color: AppColors.thirtary,
+            //         width: 2,
+            //       ),
+            //       borderRadius: BorderRadius.circular(12),
+            //     ),
+            //   ),
+            // ),
+            CustomTextField(
               controller: _newController,
-              style: const TextStyle(color: AppColors.thirtary),
-              decoration: InputDecoration(
-                labelText: 'New Name',
-                labelStyle: const TextStyle(color: AppColors.thirtary),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.thirtary),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: AppColors.thirtary,
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
+              hintText: "New Name",
+              icon: Icons.message_rounded,
+              readOnly: false,
+              keyboardType: TextInputType.text,
             ),
 
-            const SizedBox(height: 24),
-
-            // Buttons
+            const SizedBox(height: 35),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
-                  onPressed: _updateLewaya,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.secondary,
-                    foregroundColor: AppColors.thirtary,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 6,
-                  ),
-                  child: const Text('Update'),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    'Back',
-                    style: TextStyle(color: AppColors.thirtary),
+                SizedBox(width: 25),
+                Expanded(
+                  child: SmallElevatedButton(
+                    title: "Update",
+                    onPressed: _updateLewaya,
                   ),
                 ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: SmallElevatedButton(
+                    title: "Cancel",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    color: darkGreyColor,
+                  ),
+                ),
+                SizedBox(width: 25),
               ],
             ),
+
+            // Buttons
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     ElevatedButton(
+            //       onPressed: _updateLewaya,
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: AppColors.secondary,
+            //         foregroundColor: AppColors.thirtary,
+            //         padding: const EdgeInsets.symmetric(
+            //           horizontal: 24,
+            //           vertical: 12,
+            //         ),
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(12),
+            //         ),
+            //         elevation: 6,
+            //       ),
+            //       child: const Text('Update'),
+            //     ),
+            //     TextButton(
+            //       onPressed: () => Navigator.pop(context),
+            //       child: const Text(
+            //         'Back',
+            //         style: TextStyle(color: AppColors.thirtary),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
