@@ -171,9 +171,16 @@ class _AnalyzeScreenState extends State<AnalyseSection> {
   Widget _bottomTitleWidgets(double value, TitleMeta meta) {
     int index = value.toInt();
     if (index >= 0 && index < dateLabels.length) {
-      return Text(
-        DateFormat('MM-dd').format(DateTime.parse(dateLabels[index])),
-        style: smallTextStyle,
+      // return Text(
+      //   DateFormat('MM-dd').format(DateTime.parse(dateLabels[index])),
+      //   style: smallTextStyle.copyWith(fontSize: 10),
+      // );
+      return SideTitleWidget(
+        axisSide: AxisSide.bottom,
+        child: Text(
+          DateFormat('MM-dd').format(DateTime.parse(dateLabels[index])),
+          style: smallTextStyle.copyWith(fontSize: 9),
+        ),
       );
     }
     return SizedBox.shrink();
@@ -322,7 +329,7 @@ class _AnalyzeScreenState extends State<AnalyseSection> {
                         );
                       }).toList(),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 40),
                 Expanded(
                   child:
                       chartData.isEmpty
@@ -332,25 +339,57 @@ class _AnalyzeScreenState extends State<AnalyseSection> {
                           : (selectedFilter == 'Day' ||
                               selectedFilter == 'Month')
                           ? BarChart(
+                            swapAnimationDuration: Duration(milliseconds: 550),
                             BarChartData(
-                              gridData: FlGridData(show: false),
-                              borderData: FlBorderData(show: false),
+                              gridData: FlGridData(
+                                show: true,
+                                drawHorizontalLine: true,
+                              ),
+                              borderData: FlBorderData(
+                                show: true,
+                                border: Border(
+                                  left: BorderSide(width: 1),
+                                  bottom: BorderSide(width: 1),
+                                  top: BorderSide.none,
+                                  right: BorderSide.none,
+                                ),
+                              ),
                               titlesData: FlTitlesData(
+                                show: true,
                                 bottomTitles: AxisTitles(
                                   sideTitles: SideTitles(
                                     showTitles: true,
-                                    interval: 1,
+                                    // interval: 1,
                                     getTitlesWidget: _bottomTitleWidgets,
                                   ),
                                 ),
+                                rightTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                topTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    interval: 5,
+                                    reservedSize: 30,
+                                  ),
+                                ),
                               ),
+                              // groupsSpace: 1000,
+                              // barTouchData: BarTouchData(touchTooltipData: BarTouchTooltipData()),
                               barGroups: List.generate(chartData.length, (i) {
                                 List<BarChartRodData> rods = [];
                                 rods.add(
                                   BarChartRodData(
                                     toY: chartData[i].y,
                                     color: blueColor1,
-                                    width: 10,
+                                    width: 15,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(5),
+                                      topRight: Radius.circular(5),
+                                    ),
                                   ),
                                 );
                                 if (i < secondaryBarData.length) {
@@ -358,7 +397,11 @@ class _AnalyzeScreenState extends State<AnalyseSection> {
                                     BarChartRodData(
                                       toY: secondaryChartData[i].y,
                                       color: blueColor2,
-                                      width: 10,
+                                      width: 15,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(5),
+                                        topRight: Radius.circular(5),
+                                      ),
                                     ),
                                   );
                                 }
@@ -368,13 +411,37 @@ class _AnalyzeScreenState extends State<AnalyseSection> {
                           )
                           : LineChart(
                             LineChartData(
-                              gridData: FlGridData(show: false),
-                              borderData: FlBorderData(show: false),
+                              gridData: FlGridData(
+                                show: true,
+                                drawHorizontalLine: true,
+                              ),
+                              borderData: FlBorderData(
+                                show: true,
+                                border: Border(
+                                  left: BorderSide(width: 1),
+                                  bottom: BorderSide(width: 1),
+                                  top: BorderSide.none,
+                                  right: BorderSide.none,
+                                ),
+                              ),
                               titlesData: FlTitlesData(
+                                rightTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                topTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    interval: 5,
+                                    reservedSize: 30,
+                                  ),
+                                ),
                                 bottomTitles: AxisTitles(
                                   sideTitles: SideTitles(
                                     showTitles: true,
-                                    interval: 1,
+                                    // interval: 1,
                                     getTitlesWidget: _bottomTitleWidgets,
                                   ),
                                 ),

@@ -107,8 +107,8 @@ class _HomeScreenState extends State<HomeScreen>
                   LargeElevatedButton(
                     title: "Sign In",
                     onPressed: () {
-                      // Navigator.pushNamed(context, '/login');
-                      Navigator.pushNamed(context, '/admin');
+                      Navigator.pushNamed(context, '/login');
+                      // Navigator.pushNamed(context, '/admin');
                     },
                   ),
                   SizedBox(height: 40),

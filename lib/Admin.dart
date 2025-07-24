@@ -91,7 +91,7 @@ class AdminPage extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Divider(),
-                SizedBox(height: 40),
+                SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(
@@ -113,16 +113,16 @@ class AdminPage extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: DashboardContainer(
-                        image: "assets/newspaper.gif",
-                        title: "Readings",
-                        onTap: () {
-                          Navigator.pushNamed(context, "/readingSection");
-                        },
-                      ),
-                    ),
+                    // SizedBox(width: 10),
+                    // Expanded(
+                    //   child: DashboardContainer(
+                    //     image: "assets/newspaper.gif",
+                    //     title: "Readings",
+                    //     onTap: () {
+                    //       Navigator.pushNamed(context, "/readingSection");
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(height: 20),

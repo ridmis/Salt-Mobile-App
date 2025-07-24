@@ -114,87 +114,89 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       ),
       //
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Positioned(
-                  top: 0,
-                  child: Image.asset(
-                    "assets/salt.png",
-                    fit: BoxFit.cover,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    width: MediaQuery.of(context).size.width,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(
+                    top: 0,
+                    child: Image.asset(
+                      "assets/salt.png",
+                      fit: BoxFit.cover,
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: MediaQuery.of(context).size.width,
+                    ),
                   ),
-                ),
-                Positioned(
-                  // bottom: -20,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(40),
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Color(0xFF8284BE).withOpacity(.1),
-                          Color(0xFF00706E).withOpacity(.3),
-                          Color(0xFF00C9C7).withOpacity(.7),
-                          Color(0xFF00C9C7),
-                        ],
+                  Positioned(
+                    // bottom: -20,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        // borderRadius: BorderRadius.circular(40),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Color(0xFF8284BE).withOpacity(.1),
+                            Color(0xFF00706E).withOpacity(.3),
+                            Color(0xFF00C9C7).withOpacity(.7),
+                            Color(0xFF00C9C7),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: 10,
-                  child: Text(
-                    "Lanka Salt Ltd.",
-                    style: headingTextStyle.copyWith(
-                      fontSize: 26,
-                      color: whiteColor,
-                      letterSpacing: 3,
+                  Positioned(
+                    bottom: 10,
+                    child: Text(
+                      "Lanka Salt Ltd.",
+                      style: headingTextStyle.copyWith(
+                        fontSize: 26,
+                        color: whiteColor,
+                        letterSpacing: 3,
+                      ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsetsGeometry.symmetric(
-                horizontal: 30,
-                vertical: 30,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Categories", style: headingTextStyle),
-                  SizedBox(height: 20),
-                  CategoryContainer(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/rainfall');
-                    },
-                    image: 'assets/rain.gif',
-                    title: 'Rainfall',
-                    subtitle: 'Add Rainfall Details',
-                  ),
-                  SizedBox(height: 20),
-                  CategoryContainer(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/brine');
-                    },
-                    image: 'assets/readings.gif',
-                    title: 'Baume Readings',
-                    subtitle: 'View Detail Reports',
                   ),
                 ],
               ),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsetsGeometry.symmetric(
+                  horizontal: 30,
+                  vertical: 30,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Categories", style: headingTextStyle),
+                    SizedBox(height: 20),
+                    CategoryContainer(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/rainfall');
+                      },
+                      image: 'assets/rain.gif',
+                      title: 'Rainfall',
+                      subtitle: 'Add Rainfall Details',
+                    ),
+                    SizedBox(height: 20),
+                    CategoryContainer(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/brine');
+                      },
+                      image: 'assets/readings.gif',
+                      title: 'Baume Readings',
+                      subtitle: 'View Detail Reports',
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

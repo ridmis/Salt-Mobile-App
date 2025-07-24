@@ -399,6 +399,7 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
                         icon: Icons.trending_up_rounded,
                         hintText: "10.0 Kg/m³",
                         controller: upperDensityController,
+                        keyboardType: TextInputType.number,
                       ),
                       SizedBox(height: 20),
                       Text("Lower Density (Be)", style: smallTextStyle),
@@ -407,6 +408,7 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
                         icon: Icons.trending_down_rounded,
                         hintText: "10.0 Kg/m³",
                         controller: lowerDensityController,
+                        keyboardType: TextInputType.number,
                       ),
 
                       SizedBox(height: 20),
@@ -417,7 +419,7 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
                         hintText: "10.0 m",
                         controller: depthController,
                         readOnly: false,
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.number,
                       ),
                       SizedBox(height: 30),
 

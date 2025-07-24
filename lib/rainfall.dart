@@ -289,13 +289,14 @@ class _RainfallState extends State<Rainfall> {
                       readOnly: true,
                       controller: TextEditingController(),
                       hintText: currentDate,
-                      icon: Icons.calendar_today, keyboardType: TextInputType.numberWithOptions(
+                      icon: Icons.calendar_today,
+                      keyboardType: TextInputType.numberWithOptions(
                         decimal: true,
                       ),
                     ),
 
                     SizedBox(height: 30),
-                    Text("Please select a Lewaya", style: smallTextStyle),
+                    Text("Please select the Lewaya", style: smallTextStyle),
                     SizedBox(height: 15),
                     // CustomTextField(
                     //   controller: TextEditingController(),
@@ -321,12 +322,7 @@ class _RainfallState extends State<Rainfall> {
                             children: [
                               Icon(Icons.location_pin),
                               SizedBox(width: 15),
-                              Text(
-                                "Select",
-                                style: smallTextStyle.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              Text("Select", style: smallTextStyle),
                             ],
                           ),
                           items:
@@ -351,9 +347,11 @@ class _RainfallState extends State<Rainfall> {
                       icon: Icons.water_drop_rounded,
                       readOnly: false,
                       isPassword: false,
-                      obscureText: false, keyboardType: TextInputType.numberWithOptions(
-                          decimal: true,
-                    ),),
+                      obscureText: false,
+                      keyboardType: TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                    ),
                     SizedBox(height: 40),
                     LargeElevatedButton(
                       title: "Submit",
