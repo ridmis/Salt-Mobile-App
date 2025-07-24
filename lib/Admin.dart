@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/AppColors.dart';
 import 'package:myapp/constant.dart';
 import 'package:myapp/global.dart' as global;
 import 'package:myapp/reusable_components/dashboard_container.dart';
@@ -12,7 +11,7 @@ class AdminPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double spacing = 16.0;
+    // final double spacing = 16.0;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -50,7 +49,7 @@ class AdminPage extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
                   radius: MediaQuery.of(context).size.width * 0.06,
-                  backgroundImage: AssetImage("assets/salt.png"),
+                  backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
             ],
@@ -271,26 +270,26 @@ class AdminPage extends StatelessWidget {
     // );
   }
 
-  Widget _buildAdminButton(BuildContext context, String text, String route) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 8,
-        shadowColor: Colors.black45,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: AppColors.secondary, width: 3),
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, route);
-      },
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
+  // Widget _buildAdminButton(BuildContext context, String text, String route) {
+  //   return ElevatedButton(
+  //     style: ElevatedButton.styleFrom(
+  //       backgroundColor: Colors.white,
+  //       foregroundColor: Colors.black,
+  //       elevation: 8,
+  //       shadowColor: Colors.black45,
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(16),
+  //         side: const BorderSide(color: AppColors.secondary, width: 3),
+  //       ),
+  //     ),
+  //     onPressed: () {
+  //       Navigator.pushNamed(context, route);
+  //     },
+  //     child: Text(
+  //       text,
+  //       textAlign: TextAlign.center,
+  //       style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+  //     ),
+  //   );
+  // }
 }

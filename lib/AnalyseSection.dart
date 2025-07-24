@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
-import 'package:myapp/AppColors.dart';
 import 'package:myapp/constant.dart';
 import 'package:myapp/global.dart' as global;
 import 'package:myapp/reusable_components/profile_drawer.dart';
@@ -235,7 +234,7 @@ class _AnalyzeScreenState extends State<AnalyseSection> {
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
                   radius: MediaQuery.of(context).size.width * 0.06,
-                  backgroundImage: AssetImage("assets/salt.png"),
+                  backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
             ],

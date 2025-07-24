@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:myapp/AppColors.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -10,7 +8,6 @@ import 'package:myapp/constant.dart';
 import 'package:myapp/global.dart' as global;
 import 'package:myapp/reusable_components/large_elevated_button.dart';
 import 'package:myapp/reusable_components/profile_drawer.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'dart:convert';
@@ -409,7 +406,7 @@ class _ReportSectionState extends State<ReportSection> {
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
                   radius: MediaQuery.of(context).size.width * 0.06,
-                  backgroundImage: AssetImage("assets/salt.png"),
+                  backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
             ],

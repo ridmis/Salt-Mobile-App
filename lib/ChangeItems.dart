@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/AppColors.dart';
 import 'package:myapp/UpdateLewaya.dart';
 import 'package:myapp/UpdateType.dart';
 import 'package:myapp/UpdatePool.dart';
@@ -84,7 +83,7 @@ class _ChangeItemsState extends State<ChangeItems> {
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
                   radius: MediaQuery.of(context).size.width * 0.06,
-                  backgroundImage: AssetImage("assets/salt.png"),
+                  backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
             ],
@@ -186,23 +185,23 @@ class _ChangeItemsState extends State<ChangeItems> {
     );
   }
 
-  Widget _styledButton(
-    BuildContext context,
-    String text,
-    VoidCallback onPressed,
-  ) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 18),
-        backgroundColor: Colors.white.withOpacity(0.95),
-        foregroundColor: AppColors.primary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        elevation: 6,
-        shadowColor: Colors.black45,
-        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      ),
-      child: Text(text),
-    );
-  }
+  // Widget _styledButton(
+  //   BuildContext context,
+  //   String text,
+  //   VoidCallback onPressed,
+  // ) {
+  //   return ElevatedButton(
+  //     onPressed: onPressed,
+  //     style: ElevatedButton.styleFrom(
+  //       padding: const EdgeInsets.symmetric(vertical: 18),
+  //       backgroundColor: Colors.white.withOpacity(0.95),
+  //       foregroundColor: AppColors.primary,
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+  //       elevation: 6,
+  //       shadowColor: Colors.black45,
+  //       textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+  //     ),
+  //     child: Text(text),
+  //   );
+  // }
 }

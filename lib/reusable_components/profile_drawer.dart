@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/AppColors.dart';
 import 'package:myapp/constant.dart';
 import 'package:myapp/global.dart' as global;
 
@@ -24,7 +23,7 @@ class ProfileDrawer extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: MediaQuery.of(context).size.width * 0.12,
-                      backgroundImage: AssetImage("assets/salt.png"),
+                      backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                     ),
                     SizedBox(height: 20),
                     Text(global.userName, style: headingTextStyle),

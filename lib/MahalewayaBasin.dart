@@ -4,7 +4,6 @@ import 'package:myapp/constant.dart';
 import 'package:myapp/global.dart' as global;
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:myapp/reusable_components/components.dart';
 import 'package:myapp/reusable_components/large_elevated_button.dart';
 import 'package:myapp/reusable_components/profile_drawer.dart';
 
@@ -334,7 +333,7 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
                   radius: MediaQuery.of(context).size.width * 0.06,
-                  backgroundImage: AssetImage("assets/salt.png"),
+                  backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
             ],
@@ -488,12 +487,12 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
     );
   }
 
-  Widget _circle(double size) => Container(
-    width: size,
-    height: size,
-    decoration: BoxDecoration(
-      color: AppColors.secondary,
-      shape: BoxShape.circle,
-    ),
-  );
+  // Widget _circle(double size) => Container(
+  //   width: size,
+  //   height: size,
+  //   decoration: BoxDecoration(
+  //     color: AppColors.secondary,
+  //     shape: BoxShape.circle,
+  //   ),
+  // );
 }

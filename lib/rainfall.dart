@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:myapp/AppColors.dart';
 import 'package:myapp/constant.dart';
 import 'package:myapp/reusable_components/components.dart';
 import 'package:myapp/reusable_components/large_elevated_button.dart';
@@ -88,7 +87,7 @@ class _RainfallState extends State<Rainfall> {
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
                   radius: MediaQuery.of(context).size.width * 0.06,
-                  backgroundImage: AssetImage("assets/salt.png"),
+                  backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
             ],

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:myapp/AppColors.dart';
 import 'package:myapp/constant.dart';
 import 'package:myapp/reusable_components/components.dart';
-import 'package:myapp/reusable_components/large_elevated_button.dart';
 import 'package:myapp/reusable_components/small_elevated_button.dart';
 
 void showUpdateLewayaDialog(BuildContext context) {

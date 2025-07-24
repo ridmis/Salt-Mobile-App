@@ -3,9 +3,7 @@ import 'dart:ui';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/AppColors.dart';
-import 'package:myapp/AddPools.dart';
-import 'package:myapp/AddTypes.dart';
-import 'package:myapp/AddLewaya.dart';
+
 import 'package:myapp/constant.dart';
 import 'package:myapp/global.dart' as global;
 import 'package:myapp/reusable_components/components.dart';
@@ -414,7 +412,7 @@ class _CreateItemsState extends State<CreateItems> {
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
                   radius: MediaQuery.of(context).size.width * 0.06,
-                  backgroundImage: AssetImage("assets/salt.png"),
+                  backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
             ],
@@ -935,25 +933,25 @@ class _CreateItemsState extends State<CreateItems> {
     );
   }
 
-  Widget _buildStyledButton(String label, VoidCallback onPressed) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.secondary,
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 6,
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          color: AppColors.thirtary,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
+  // Widget _buildStyledButton(String label, VoidCallback onPressed) {
+  //   return ElevatedButton(
+  //     onPressed: onPressed,
+  //     style: ElevatedButton.styleFrom(
+  //       backgroundColor: AppColors.secondary,
+  //       padding: const EdgeInsets.symmetric(vertical: 20),
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  //       elevation: 6,
+  //     ),
+  //     child: Text(
+  //       label,
+  //       style: const TextStyle(
+  //         color: AppColors.thirtary,
+  //         fontSize: 16,
+  //         fontWeight: FontWeight.bold,
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
 InputDecoration _inputDecoration(String label) => InputDecoration(
