@@ -213,7 +213,7 @@ class _SignInState extends State<SignIn> {
 
             content: Text(
               textAlign: TextAlign.center,
-              "Invalid Password for Admin",
+              "Invalid Password",
               style: smallTextStyle.copyWith(
                 color: whiteColor,
                 fontWeight: FontWeight.bold,
