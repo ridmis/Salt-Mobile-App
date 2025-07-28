@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/constant.dart';
+import 'package:myapp/global.dart' as global;
 import 'package:myapp/reusable_components/small_elevated_button.dart';
 
 class ChangeCurrentItemContainer extends StatelessWidget {
@@ -13,16 +14,17 @@ class ChangeCurrentItemContainer extends StatelessWidget {
     required this.title,
     this.onUpdate,
     this.onDelete,
-    
-
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      
       child: Container(
-        height: MediaQuery.of(context).size.height * .15,
+        // height: MediaQuery.of(context).size.height * .15,
+        height:
+            global.isTablet
+                ? MediaQuery.of(context).size.height * .20
+                : MediaQuery.of(context).size.height * .18,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
@@ -35,7 +37,12 @@ class ChangeCurrentItemContainer extends StatelessWidget {
               // bottom: -20,
               child: Container(
                 // clipBehavior: Clip.antiAlias,
-                height: MediaQuery.of(context).size.height * 0.15,
+                // height: MediaQuery.of(context).size.height * 0.15,
+                height:
+                    global.isMobile
+                        ? MediaQuery.of(context).size.height * .20
+                        : MediaQuery.of(context).size.height * .18,
+
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),

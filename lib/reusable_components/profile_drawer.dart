@@ -8,8 +8,9 @@ class ProfileDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      width: MediaQuery.of(context).size.width * .75,
       child: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.2),
+        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -22,8 +23,11 @@ class ProfileDrawer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      radius: MediaQuery.of(context).size.width * 0.12,
-                      backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
+                      // radius: MediaQuery.of(context).size.width * 0.12,
+                      radius: 60,
+                      backgroundImage: AssetImage(
+                        "assets/Sample_User_Icon.png",
+                      ),
                     ),
                     SizedBox(height: 20),
                     Text(global.userName, style: headingTextStyle),

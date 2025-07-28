@@ -92,7 +92,8 @@ class _SelectBrineScreenState extends State<SelectBrineScreen> {
                 },
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
-                  radius: MediaQuery.of(context).size.width * 0.06,
+                  // radius: MediaQuery.of(context).size.width * 0.06,
+                  radius: 30,
                   backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
@@ -102,49 +103,54 @@ class _SelectBrineScreenState extends State<SelectBrineScreen> {
       ),
 
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Text(
-                      "Factory List",
-                      style: headingTextStyle.copyWith(fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 15),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: lewayaList.length,
-                  itemBuilder: (context, index) {
-                    final item = lewayaList[index];
-                    return Column(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: lewayaList.length.toDouble() * 600,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
                       children: [
-                        lewayaCard(
-                          context,
-                          item['name'],
-                          onPressed: () {
-                            global.selectedLId = item['L_ID'];
-                            global.SelectedLName = item['name'];
-                            Navigator.pushNamed(
-                              context,
-                              '/selecttype',
-                              arguments: item,
-                            );
-                          },
+                        Text(
+                          "Factory List",
+                          style: headingTextStyle.copyWith(fontSize: 16),
                         ),
-                        const SizedBox(height: 20),
                       ],
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: lewayaList.length,
+                      itemBuilder: (context, index) {
+                        final item = lewayaList[index];
+                        return Column(
+                          children: [
+                            lewayaCard(
+                              context,
+                              item['name'],
+                              onPressed: () {
+                                global.selectedLId = item['L_ID'];
+                                global.SelectedLName = item['name'];
+                                Navigator.pushNamed(
+                                  context,
+                                  '/selecttype',
+                                  arguments: item,
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -161,7 +167,11 @@ Widget lewayaCard(
     onTap: onPressed,
 
     child: Container(
-      height: MediaQuery.of(context).size.height * .18,
+      // height: MediaQuery.of(context).size.height * .18,
+      height:
+          global.isTablet
+              ? MediaQuery.of(context).size.height * .20
+              : MediaQuery.of(context).size.height * .18,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -175,7 +185,10 @@ Widget lewayaCard(
         children: [
           Positioned(
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.18,
+              height:
+                  global.isMobile
+                      ? MediaQuery.of(context).size.height * .20
+                      : MediaQuery.of(context).size.height * .18,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),

@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/AppColors.dart';
 
 import 'package:myapp/constant.dart';
 import 'package:myapp/global.dart' as global;
@@ -411,7 +410,8 @@ class _CreateItemsState extends State<CreateItems> {
                 },
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
-                  radius: MediaQuery.of(context).size.width * 0.06,
+                  // radius: MediaQuery.of(context).size.width * 0.06,
+                  radius: 30,
                   backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
@@ -558,57 +558,60 @@ class _CreateItemsState extends State<CreateItems> {
             child: ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(45)),
               child: Scaffold(
-                body: Container(
+                body: SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  // height: 440,
-                  // height: MediaQuery.of(context).size.height * .2,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(45),
+                  child: Container(
+                    width: double.infinity,
+                    // height: 440,
+                    // height: MediaQuery.of(context).size.height * .2,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(45),
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsetsGeometry.symmetric(
-                      horizontal: 40,
-                      vertical: 75,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Add New Lewaya", style: headingTextStyle),
-                        SizedBox(height: 20),
-                        CustomTextField(
-                          controller: _lewayaController,
-                          hintText: "Enter Name",
-                          icon: Icons.home_work_outlined,
-                          readOnly: false,
-                          keyboardType: TextInputType.text,
-                        ),
-                        SizedBox(height: 35),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: LargeElevatedButton(
-                                title: "Add",
-                                onPressed: () {
-                                  _addLewaya();
-                                },
+                    child: Padding(
+                      padding: EdgeInsetsGeometry.symmetric(
+                        horizontal: 40,
+                        vertical: 75,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Add New Lewaya", style: headingTextStyle),
+                          SizedBox(height: 20),
+                          CustomTextField(
+                            controller: _lewayaController,
+                            hintText: "Enter Name",
+                            icon: Icons.home_work_outlined,
+                            readOnly: false,
+                            keyboardType: TextInputType.text,
+                          ),
+                          SizedBox(height: 35),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: LargeElevatedButton(
+                                  title: "Add",
+                                  onPressed: () {
+                                    _addLewaya();
+                                  },
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 20),
+                              SizedBox(width: 20),
 
-                            Expanded(
-                              child: LargeElevatedButton(
-                                title: "Cancel",
-                                onPressed: () => Navigator.pop(context),
-                                color: darkGreyColor,
+                              Expanded(
+                                child: LargeElevatedButton(
+                                  title: "Cancel",
+                                  onPressed: () => Navigator.pop(context),
+                                  color: darkGreyColor,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -779,148 +782,153 @@ class _CreateItemsState extends State<CreateItems> {
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(45)),
-                  child: Scaffold(
-                    body: SingleChildScrollView(
-                      child: Container(
-                        // height: 440,
-                        width: MediaQuery.of(context).size.width,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(45),
+                  child: SizedBox(
+                    height: 600,
+                    child: Scaffold(
+                      body: SingleChildScrollView(
+                        child: Container(
+                          // height: 440,
+                          width: MediaQuery.of(context).size.width,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(45),
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 40,
-                            vertical: 75,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Add New Pool", style: headingTextStyle),
-                              SizedBox(height: 20),
-                              Text(
-                                "Please select a Lewaya",
-                                style: smallTextStyle,
-                              ),
-                              SizedBox(height: 15),
-                              DropdownButtonFormField<String>(
-                                hint: Row(
-                                  children: [
-                                    Icon(Icons.location_searching_rounded),
-                                    SizedBox(width: 15),
-                                    Text("Select", style: smallTextStyle),
-                                  ],
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 40,
+                              vertical: 75,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Add New Pool", style: headingTextStyle),
+                                SizedBox(height: 20),
+                                Text(
+                                  "Please select a Lewaya",
+                                  style: smallTextStyle,
                                 ),
-                                value: localSelectedLewayaName,
-                                items:
-                                    lewayaListforPool.map((item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item['name'],
-                                        child: Text(item['name']),
-                                      );
-                                    }).toList(),
-                                onChanged: (val) {
-                                  // Update local state
-                                  localSelectedLewayaName = val;
-                                  localSelectedLewayaId =
-                                      lewayaListforPool.firstWhere(
-                                        (e) => e['name'] == val,
-                                      )['L_ID'];
+                                SizedBox(height: 15),
+                                DropdownButtonFormField<String>(
+                                  hint: Row(
+                                    children: [
+                                      Icon(Icons.location_searching_rounded),
+                                      SizedBox(width: 15),
+                                      Text("Select", style: smallTextStyle),
+                                    ],
+                                  ),
+                                  value: localSelectedLewayaName,
+                                  items:
+                                      lewayaListforPool.map((item) {
+                                        return DropdownMenuItem<String>(
+                                          value: item['name'],
+                                          child: Text(item['name']),
+                                        );
+                                      }).toList(),
+                                  onChanged: (val) {
+                                    // Update local state
+                                    localSelectedLewayaName = val;
+                                    localSelectedLewayaId =
+                                        lewayaListforPool.firstWhere(
+                                          (e) => e['name'] == val,
+                                        )['L_ID'];
 
-                                  // Fetch types with the local function
-                                  fetchLocalTypes(localSelectedLewayaId!);
+                                    // Fetch types with the local function
+                                    fetchLocalTypes(localSelectedLewayaId!);
 
-                                  // Update parent state too
-                                  setState(() {
-                                    selectedLewayaNameforPool = val;
-                                    selectedLIdforPool = localSelectedLewayaId;
-                                  });
-                                },
-                                decoration: _inputDecoration(''),
-                                dropdownColor: greyColor,
-                                style: smallTextStyle,
-                              ),
-                              SizedBox(height: 20),
-                              Text(
-                                "Please select a Type",
-                                style: smallTextStyle,
-                              ),
-                              SizedBox(height: 15),
-                              DropdownButtonFormField<String>(
-                                key: ValueKey(localSelectedLewayaId),
-                                hint: Row(
-                                  children: [
-                                    Icon(Icons.menu_open_rounded),
-                                    SizedBox(width: 15),
-                                    Text("Select", style: smallTextStyle),
-                                  ],
+                                    // Update parent state too
+                                    setState(() {
+                                      selectedLewayaNameforPool = val;
+                                      selectedLIdforPool =
+                                          localSelectedLewayaId;
+                                    });
+                                  },
+                                  decoration: _inputDecoration(''),
+                                  dropdownColor: greyColor,
+                                  style: smallTextStyle,
                                 ),
-                                value: localSelectedTypeName,
-                                items:
-                                    localTypeList.isEmpty
-                                        ? []
-                                        : localTypeList.map((item) {
-                                          return DropdownMenuItem<String>(
-                                            value: item['Type_Name'],
-                                            child: Text(item['Type_Name']),
-                                          );
-                                        }).toList(),
-                                onChanged:
-                                    localTypeList.isEmpty
-                                        ? null
-                                        : (val) {
-                                          setBottomSheetState(() {
-                                            localSelectedTypeName = val;
-                                            localSelectedTypeId =
-                                                localTypeList.firstWhere(
-                                                  (e) => e['Type_Name'] == val,
-                                                )['T_Id'];
-                                          });
+                                SizedBox(height: 20),
+                                Text(
+                                  "Please select a Type",
+                                  style: smallTextStyle,
+                                ),
+                                SizedBox(height: 15),
+                                DropdownButtonFormField<String>(
+                                  key: ValueKey(localSelectedLewayaId),
+                                  hint: Row(
+                                    children: [
+                                      Icon(Icons.menu_open_rounded),
+                                      SizedBox(width: 15),
+                                      Text("Select", style: smallTextStyle),
+                                    ],
+                                  ),
+                                  value: localSelectedTypeName,
+                                  items:
+                                      localTypeList.isEmpty
+                                          ? []
+                                          : localTypeList.map((item) {
+                                            return DropdownMenuItem<String>(
+                                              value: item['Type_Name'],
+                                              child: Text(item['Type_Name']),
+                                            );
+                                          }).toList(),
+                                  onChanged:
+                                      localTypeList.isEmpty
+                                          ? null
+                                          : (val) {
+                                            setBottomSheetState(() {
+                                              localSelectedTypeName = val;
+                                              localSelectedTypeId =
+                                                  localTypeList.firstWhere(
+                                                    (e) =>
+                                                        e['Type_Name'] == val,
+                                                  )['T_Id'];
+                                            });
 
-                                          // Update parent state too
-                                          setState(() {
-                                            selectedTypeName = val;
-                                            selectedTId = localSelectedTypeId;
-                                          });
+                                            // Update parent state too
+                                            setState(() {
+                                              selectedTypeName = val;
+                                              selectedTId = localSelectedTypeId;
+                                            });
+                                          },
+                                  decoration: _inputDecoration(''),
+                                  dropdownColor: greyColor,
+                                  style: smallTextStyle,
+                                ),
+                                SizedBox(height: 20),
+                                CustomTextField(
+                                  controller: _poolController,
+                                  hintText: "Enter Name",
+                                  icon: Icons.menu_open_rounded,
+                                  readOnly: false,
+                                  keyboardType: TextInputType.text,
+                                ),
+                                SizedBox(height: 35),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: LargeElevatedButton(
+                                        title: "Add",
+                                        onPressed: () {
+                                          _addPool();
                                         },
-                                decoration: _inputDecoration(''),
-                                dropdownColor: greyColor,
-                                style: smallTextStyle,
-                              ),
-                              SizedBox(height: 20),
-                              CustomTextField(
-                                controller: _poolController,
-                                hintText: "Enter Name",
-                                icon: Icons.menu_open_rounded,
-                                readOnly: false,
-                                keyboardType: TextInputType.text,
-                              ),
-                              SizedBox(height: 35),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: LargeElevatedButton(
-                                      title: "Add",
-                                      onPressed: () {
-                                        _addPool();
-                                      },
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(width: 20),
-                                  Expanded(
-                                    child: LargeElevatedButton(
-                                      title: "Cancel",
-                                      onPressed: () => Navigator.pop(context),
-                                      color: darkGreyColor,
+                                    SizedBox(width: 20),
+                                    Expanded(
+                                      child: LargeElevatedButton(
+                                        title: "Cancel",
+                                        onPressed: () => Navigator.pop(context),
+                                        color: darkGreyColor,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

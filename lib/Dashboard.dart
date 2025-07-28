@@ -26,6 +26,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    // print(" screen height -    -${MediaQuery.of(context).size.height}");
 
     _controller1 = AnimationController(
       vsync: this,
@@ -73,6 +74,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    print(
+      "radisu ==================${MediaQuery.of(context).size.height * 0.04}",
+    );
     return Scaffold(
       key: _scaffoldKey,
       drawer: ProfileDrawer(),
@@ -103,7 +107,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 },
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
-                  radius: MediaQuery.of(context).size.width * 0.06,
+                  // radius: MediaQuery.of(context).size.height * 0.04,
+                  radius: 30,
                   backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
@@ -126,14 +131,22 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     child: Image.asset(
                       "assets/salt.png",
                       fit: BoxFit.cover,
-                      height: MediaQuery.of(context).size.height * 0.25,
+                      // height: MediaQuery.of(context).size.height * 0.30,
+                      height:
+                          global.isTablet
+                              ? MediaQuery.of(context).size.height * 0.50
+                              : MediaQuery.of(context).size.height * 0.30,
                       width: MediaQuery.of(context).size.width,
                     ),
                   ),
                   Positioned(
                     // bottom: -20,
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.25,
+                      // height: MediaQuery.of(context).size.height * 0.30,
+                      height:
+                          global.isTablet
+                              ? MediaQuery.of(context).size.height * 0.45
+                              : MediaQuery.of(context).size.height * 0.25,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         // borderRadius: BorderRadius.circular(40),
@@ -173,6 +186,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Categories", style: headingTextStyle),
+
                     SizedBox(height: 20),
                     CategoryContainer(
                       onTap: () {
@@ -191,6 +205,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       title: 'Baume Readings',
                       subtitle: 'View Detail Reports',
                     ),
+                    SizedBox(height: 25),
                   ],
                 ),
               ),

@@ -106,7 +106,8 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                 },
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
-                  radius: MediaQuery.of(context).size.width * 0.06,
+                  // radius: MediaQuery.of(context).size.width * 0.06,
+                  radius: 30,
                   backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
@@ -158,7 +159,11 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.25,
+                // height: MediaQuery.of(context).size.height * 0.25,
+                height:
+                    global.isTablet
+                        ? MediaQuery.of(context).size.height * 0.30
+                        : MediaQuery.of(context).size.height * 0.25,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -234,7 +239,11 @@ Widget typeButton(
     child: Padding(
       padding: const EdgeInsets.all(4.0),
       child: Container(
-        height: MediaQuery.of(context).size.width * .3,
+        // height: MediaQuery.of(context).size.width * .3,
+        height:
+            global.isTablet
+                ? MediaQuery.of(context).size.height * 0.32
+                : MediaQuery.of(context).size.height * 0.20,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -249,7 +258,7 @@ Widget typeButton(
             Positioned(
               // bottom: -20,
               child: Container(
-                height: MediaQuery.of(context).size.width * 0.3,
+                height: MediaQuery.of(context).size.width * 0.6,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),

@@ -10,11 +10,11 @@ import 'package:myapp/HomeScreen.dart';
 import 'package:myapp/Pools.dart';
 import 'package:myapp/SignIn_Page.dart';
 import 'package:myapp/Dashboard.dart';
+import 'package:myapp/global.dart' as global;
 import 'package:myapp/rainfall.dart';
 import 'package:myapp/BrinePage.dart';
 import 'package:myapp/SelectType.dart';
 import 'package:myapp/MahalewayaBasin.dart';
-
 
 // Import new admin-related pages
 import 'package:myapp/AddUserAdmin.dart';
@@ -52,6 +52,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    global.isMobile = MediaQuery.of(context).size.height < 900;
+    global.isTablet = MediaQuery.of(context).size.width >= 900;
+    // global.isDesktop = MediaQuery.of(context).size.width >= 1024;
     return MaterialApp(
       theme: ThemeData(textTheme: GoogleFonts.poppinsTextTheme()),
       debugShowCheckedModeBanner: false,
@@ -68,9 +71,7 @@ class MyApp extends StatelessWidget {
         '/pools': (context) => SelectPool(),
         '/polls': (context) => SelectPool(),
 
-        
         '/mbasin': (context) => MahalewayaBasin(),
-        
 
         // Admin panel extra pages
         '/addUser': (context) => AddUserAdmin(),

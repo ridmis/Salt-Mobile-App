@@ -119,7 +119,8 @@ class _SelectPoolState extends State<SelectPool> {
                 },
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
-                  radius: MediaQuery.of(context).size.width * 0.06,
+                  // radius: MediaQuery.of(context).size.width * 0.06,
+                  radius: 30,
                   backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
@@ -202,7 +203,11 @@ class _SelectPoolState extends State<SelectPool> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.25,
+                // height: MediaQuery.of(context).size.height * 0.25,
+                height:
+                    global.isTablet
+                        ? MediaQuery.of(context).size.height * 0.30
+                        : MediaQuery.of(context).size.height * 0.25,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -247,9 +252,10 @@ class _SelectPoolState extends State<SelectPool> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
+                      // crossAxisCount: 3,
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
                       children:
                           poolList.map((pool) {
                             final poolId = pool['P_Id'];

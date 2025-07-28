@@ -157,18 +157,54 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   bool _obscureText = true;
+  bool _isLoading = false;
 
   void login() async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
     final inputUser = _userController.text.trim();
     final inputPass = _passController.text.trim();
+
+    if (inputUser.isEmpty || inputPass.isEmpty) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          backgroundColor: redColor,
+          content: Text(
+            textAlign: TextAlign.center,
+            "Please Enter Username and Password",
+            style: smallTextStyle.copyWith(
+              color: whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      );
+      return;
+    }
 
     global.userName = inputUser;
 
     final userRef = FirebaseDatabase.instance.ref().child('users/$inputUser');
     final adminRef = FirebaseDatabase.instance.ref().child('Admin/$inputUser');
 
-    final userSnap = await userRef.get();
-    final adminSnap = await adminRef.get();
+    final results = await Future.wait([adminRef.get(), userRef.get()]);
+
+    final adminSnap = results[0];
+    final userSnap = results[1];
 
     if (adminSnap.exists) {
       final data = adminSnap.value as Map;
@@ -213,7 +249,7 @@ class _SignInState extends State<SignIn> {
 
             content: Text(
               textAlign: TextAlign.center,
-              "Invalid Password",
+              "Invalid User Name or Password",
               style: smallTextStyle.copyWith(
                 color: whiteColor,
                 fontWeight: FontWeight.bold,
@@ -304,10 +340,15 @@ class _SignInState extends State<SignIn> {
       _userController.clear();
       _passController.clear();
     }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    print("Screen size ============ ${MediaQuery.of(context).size.height}");
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -319,7 +360,11 @@ class _SignInState extends State<SignIn> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 440,
+              // height: MediaQuery.of(context).size.height * 0.6,
+              height:
+                  global.isMobile
+                      ? MediaQuery.of(context).size.height * .5
+                      : MediaQuery.of(context).size.height * .5,
               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
               decoration: const BoxDecoration(
                 color: AppColors.thirtary,
@@ -362,7 +407,18 @@ class _SignInState extends State<SignIn> {
                       },
                     ),
                     const SizedBox(height: 40),
-                    LargeElevatedButton(title: "Sign in", onPressed: login),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: LargeElevatedButton(
+                            title: _isLoading ? "Signing in..." : "Sign in",
+                            onPressed: _isLoading ? null : login,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

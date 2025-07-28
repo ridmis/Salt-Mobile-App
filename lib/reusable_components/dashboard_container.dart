@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/constant.dart';
+import 'package:myapp/global.dart' as global;
 
 class DashboardContainer extends StatelessWidget {
   final VoidCallback? onTap;
@@ -19,7 +20,11 @@ class DashboardContainer extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: MediaQuery.of(context).size.height * .18,
+        // height: MediaQuery.of(context).size.height * .18,
+        height:
+            global.isMobile
+                ? MediaQuery.of(context).size.height * 0.18
+                : MediaQuery.of(context).size.height * 0.18,
         // width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),

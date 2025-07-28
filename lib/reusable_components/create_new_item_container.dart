@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/constant.dart';
+import 'package:myapp/global.dart' as global;
 
 class CreateNewItemContainer extends StatelessWidget {
   final VoidCallback? onTap;
@@ -19,7 +20,11 @@ class CreateNewItemContainer extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: MediaQuery.of(context).size.height * .15,
+        // height: MediaQuery.of(context).size.height * .15,
+        height:
+            global.isTablet
+                ? MediaQuery.of(context).size.height * .20
+                : MediaQuery.of(context).size.height * .18,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
@@ -31,7 +36,11 @@ class CreateNewItemContainer extends StatelessWidget {
             Positioned(
               // bottom: -20,
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.15,
+                // height: MediaQuery.of(context).size.height * 0.15,
+                height:
+                    global.isTablet
+                        ? MediaQuery.of(context).size.height * .20
+                        : MediaQuery.of(context).size.height * .18,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),

@@ -332,7 +332,8 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
                 },
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
-                  radius: MediaQuery.of(context).size.width * 0.06,
+                  // radius: MediaQuery.of(context).size.width * 0.06,
+                  radius: 30,
                   backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
@@ -346,7 +347,11 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.25,
+                // height: MediaQuery.of(context).size.height * 0.25,
+                height:
+                    global.isTablet
+                        ? MediaQuery.of(context).size.height * 0.30
+                        : MediaQuery.of(context).size.height * 0.25,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -423,11 +428,18 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
                       SizedBox(height: 30),
 
                       SizedBox(height: 10),
-                      LargeElevatedButton(
-                        title: "Save",
-                        onPressed: () {
-                          handleSubmit();
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: LargeElevatedButton(
+                              title: "Save",
+                              onPressed: () {
+                                handleSubmit();
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

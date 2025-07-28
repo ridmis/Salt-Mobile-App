@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:myapp/constant.dart';
+import 'package:myapp/global.dart' as global;
 import 'package:myapp/reusable_components/components.dart';
 import 'package:myapp/reusable_components/large_elevated_button.dart';
 import 'package:myapp/reusable_components/profile_drawer.dart';
@@ -86,7 +87,8 @@ class _RainfallState extends State<Rainfall> {
                 },
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
-                  radius: MediaQuery.of(context).size.width * 0.06,
+                  // radius: MediaQuery.of(context).size.width * 0.06,
+                  radius: 30,
                   backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
@@ -252,7 +254,11 @@ class _RainfallState extends State<Rainfall> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.25,
+                // height: MediaQuery.of(context).size.height * 0.25,
+                height:
+                    global.isTablet
+                        ? MediaQuery.of(context).size.height * 0.30
+                        : MediaQuery.of(context).size.height * 0.25,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -352,124 +358,135 @@ class _RainfallState extends State<Rainfall> {
                       ),
                     ),
                     SizedBox(height: 40),
-                    LargeElevatedButton(
-                      title: "Submit",
-                      onPressed: () async {
-                        if (selectedOption.isEmpty ||
-                            _textController.text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              padding: EdgeInsets.symmetric(vertical: 30),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30),
-                                ),
-                              ),
-                              backgroundColor: redColor,
+                    Row(
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: LargeElevatedButton(
+                            title: "Submit",
+                            onPressed: () async {
+                              if (selectedOption.isEmpty ||
+                                  _textController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    padding: EdgeInsets.symmetric(vertical: 30),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(30),
+                                        topRight: Radius.circular(30),
+                                      ),
+                                    ),
+                                    backgroundColor: redColor,
 
-                              content: Text(
-                                textAlign: TextAlign.center,
-                                "Please select a location and enter a value",
-                                style: smallTextStyle.copyWith(
-                                  color: whiteColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          );
-                          return;
-                        }
+                                    content: Text(
+                                      textAlign: TextAlign.center,
+                                      "Please select a location and enter a value",
+                                      style: smallTextStyle.copyWith(
+                                        color: whiteColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
 
-                        String input = _textController.text.trim();
-                        final regex = RegExp(r'^\d{1,2}(\.\d{1,2})?$');
+                              String input = _textController.text.trim();
+                              final regex = RegExp(r'^\d{1,2}(\.\d{1,2})?$');
 
-                        if (!regex.hasMatch(input)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30),
-                                ),
-                              ),
-                              backgroundColor: redColor,
+                              if (!regex.hasMatch(input)) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    padding: EdgeInsets.symmetric(vertical: 20),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(30),
+                                        topRight: Radius.circular(30),
+                                      ),
+                                    ),
+                                    backgroundColor: redColor,
 
-                              content: Text(
-                                textAlign: TextAlign.center,
-                                "Invalid rainfall format",
-                                style: smallTextStyle.copyWith(
-                                  color: whiteColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          );
-                          return;
-                        }
+                                    content: Text(
+                                      textAlign: TextAlign.center,
+                                      "Invalid rainfall format",
+                                      style: smallTextStyle.copyWith(
+                                        color: whiteColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
 
-                        double value = double.parse(input);
-                        String formattedDate = DateFormat(
-                          'yyyy-MM-dd',
-                        ).format(DateTime.now());
+                              double value = double.parse(input);
+                              String formattedDate = DateFormat(
+                                'yyyy-MM-dd',
+                              ).format(DateTime.now());
 
-                        DatabaseReference dbRef = FirebaseDatabase.instance
-                            .ref()
-                            .child('rainfall/$selectedOption/$formattedDate');
+                              DatabaseReference dbRef = FirebaseDatabase
+                                  .instance
+                                  .ref()
+                                  .child(
+                                    'rainfall/$selectedOption/$formattedDate',
+                                  );
 
-                        try {
-                          await dbRef.set(value);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30),
-                                ),
-                              ),
-                              backgroundColor: greenColor,
+                              try {
+                                await dbRef.set(value);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    padding: EdgeInsets.symmetric(vertical: 20),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(30),
+                                        topRight: Radius.circular(30),
+                                      ),
+                                    ),
+                                    backgroundColor: greenColor,
 
-                              content: Text(
-                                textAlign: TextAlign.center,
-                                "Rainfall data submitted",
-                                style: smallTextStyle.copyWith(
-                                  color: whiteColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          );
+                                    content: Text(
+                                      textAlign: TextAlign.center,
+                                      "Rainfall data submitted",
+                                      style: smallTextStyle.copyWith(
+                                        color: whiteColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                );
 
-                          setState(() {
-                            _textController.clear();
-                            selectedOption = '';
-                          });
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30),
-                                ),
-                              ),
-                              backgroundColor: redColor,
+                                setState(() {
+                                  _textController.clear();
+                                  selectedOption = '';
+                                });
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    padding: EdgeInsets.symmetric(vertical: 20),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(30),
+                                        topRight: Radius.circular(30),
+                                      ),
+                                    ),
+                                    backgroundColor: redColor,
 
-                              content: Text(
-                                textAlign: TextAlign.center,
-                                "Error saving data: $e",
-                                style: smallTextStyle.copyWith(
-                                  color: whiteColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                      },
+                                    content: Text(
+                                      textAlign: TextAlign.center,
+                                      "Error saving data: $e",
+                                      style: smallTextStyle.copyWith(
+                                        color: whiteColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

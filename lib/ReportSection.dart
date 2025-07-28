@@ -405,7 +405,8 @@ class _ReportSectionState extends State<ReportSection> {
                 },
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
-                  radius: MediaQuery.of(context).size.width * 0.06,
+                  // radius: MediaQuery.of(context).size.width * 0.06,
+                  radius: 30,
                   backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
@@ -591,7 +592,16 @@ class _ReportSectionState extends State<ReportSection> {
               ),
 
               const SizedBox(height: 20),
-              LargeElevatedButton(title: "Search", onPressed: fetchData),
+              Row(
+                children: [
+                  Expanded(
+                    child: LargeElevatedButton(
+                      title: "Search",
+                      onPressed: fetchData,
+                    ),
+                  ),
+                ],
+              ),
 
               // Row(
               //   children: [
@@ -626,7 +636,7 @@ class _ReportSectionState extends State<ReportSection> {
               //     ),
               //   ],
               // ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
               Divider(),
 
               // Align(
@@ -726,6 +736,7 @@ class _ReportSectionState extends State<ReportSection> {
               // ),
               SizedBox(
                 height: tableData.length.toDouble() * 50 + 100,
+                // width: double.infinity,
                 child:
                     tableData.isEmpty
                         ? Align(
@@ -790,6 +801,7 @@ class _ReportSectionState extends State<ReportSection> {
                                     ),
                                   ],
                                 ),
+                                SizedBox(height: 40),
 
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,

@@ -132,7 +132,8 @@ class _AddUserAdminState extends State<AddUserAdmin> {
                 },
                 child: CircleAvatar(
                   backgroundColor: whiteColor,
-                  radius: MediaQuery.of(context).size.width * 0.06,
+                  // radius: MediaQuery.of(context).size.width * 0.06,
+                  radius: 30,
                   backgroundImage: AssetImage("assets/Sample_User_Icon.png"),
                 ),
               ),
@@ -352,7 +353,16 @@ class _AddUserAdminState extends State<AddUserAdmin> {
                 },
               ),
               SizedBox(height: 40),
-              LargeElevatedButton(title: "Create", onPressed: _addUserOrAdmin),
+              Row(
+                children: [
+                  Expanded(
+                    child: LargeElevatedButton(
+                      title: "Create",
+                      onPressed: _addUserOrAdmin,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
