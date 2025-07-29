@@ -379,9 +379,21 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "${global.selectedTypeName} Details",
-                        style: headingTextStyle,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${global.selectedTypeName} Details",
+                            style: headingTextStyle,
+                          ),
+                          if (isEditing)
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                loadEditData();
+                              },
+                            ),
+                        ],
                       ),
                       SizedBox(height: 15),
                       Text(
@@ -458,7 +470,7 @@ class _MahalewayaFormState extends State<MahalewayaForm> {
       alignment: Alignment.centerLeft,
       child: Text(
         text,
-        style: const TextStyle(color: AppColors.thirtary, fontSize: 16),
+        style: const TextStyle(color: Colors.black, fontSize: 16),
       ),
     ),
   );
